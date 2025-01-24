@@ -1,9 +1,8 @@
+import './utils/env'; // 환경 변수 초기화
+
 import express from 'express';
-import dotenv from 'dotenv';
 import connectDB from './config/db';
 import routes from './routes';
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
