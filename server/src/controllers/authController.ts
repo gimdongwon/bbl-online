@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 // 사용자 등록
 export const register = async (req: Request, res: Response): Promise<void> => {
@@ -37,8 +38,31 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+export const getCurrentUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const userId = (req as any).user; // `any`로 임시 해결
+    if (!userId) {
+      res.status(401).json({ message: 'Unauthorized: No user ID' });
+      return;
+    }
+
+    const user = await User.findById(userId).select('-password');
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+};
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
+
   try {
     const user = await User.findOne({ email });
     if (!user) {
@@ -52,7 +76,19 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    res.status(200).json({ message: 'Login successful', user });
+    // JWT 토큰 생성
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, {
+      expiresIn: '1h', // 1시간 유효
+    });
+
+    // 비밀번호 제외한 사용자 정보 반환
+    const { password: _, ...userWithoutPassword } = user.toObject();
+
+    res.status(200).json({
+      message: 'Login successful',
+      token, // JWT 토큰 추가
+      user: userWithoutPassword, // 비밀번호를 제외한 사용자 정보 반환
+    });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
   }
