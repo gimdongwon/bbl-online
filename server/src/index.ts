@@ -1,17 +1,6 @@
-import './utils/env'; // 환경 변수 초기화
-
-import express from 'express';
-import connectDB from './config/db';
 import routes from './routes';
-
-const app = express();
+import app from './app';
 const PORT = process.env.PORT || 5001;
-
-// MongoDB 연결
-connectDB();
-
-// JSON 요청 처리
-app.use(express.json());
 
 // 라우트 등록
 app.use('/api', routes);
