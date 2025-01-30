@@ -8,3 +8,22 @@ export const registerUser = async (data: {
   const response = await axios.post('/auth/register', data);
   return response.data;
 };
+
+export const loginUser = async (data: {
+  email: string;
+  password: string;
+}): Promise<{
+  token: string;
+  user: { name: string; email: string; id: string };
+}> => {
+  const response = await axios.post('/auth/login', data);
+  return response.data;
+};
+
+export const getUser = async () => {
+  const token = localStorage.getItem('token');
+  const response = await axios.get('/auth/me', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data.user;
+};

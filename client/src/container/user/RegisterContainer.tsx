@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { registerUser } from '../api/auth';
-import FormInput from '../components/FormInput';
+import { registerUser } from '../../api/auth';
+import FormInput from '../../components/FormInput';
 
 const RegisterFormContainer: React.FC = () => {
   const [name, setName] = useState('');

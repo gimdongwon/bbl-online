@@ -60,6 +60,7 @@ export const getCurrentUser = async (
     res.status(500).json({ error: 'An error occurred' });
   }
 };
+
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
