@@ -1,13 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 interface LoginFormProps {
   email: string;
   password: string;
-  onEmailChange: (value: string) => void;
+  onEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPasswordChange: (value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
+  rememberId: boolean;
+  handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({
@@ -17,32 +20,149 @@ const LoginForm: React.FC<LoginFormProps> = ({
   onPasswordChange,
   onSubmit,
   isLoading,
+  rememberId,
+  handleCheckboxChange,
 }) => {
   return (
-    <>
-      <form onSubmit={onSubmit}>
-        <h2>Login</h2>
-        <input
-          type='email'
-          value={email}
-          onChange={(e) => onEmailChange(e.target.value)}
-          placeholder='Email'
-          required
-        />
-        <input
-          type='password'
-          value={password}
-          onChange={(e) => onPasswordChange(e.target.value)}
-          placeholder='Password'
-          required
-        />
-        <button type='submit' disabled={isLoading}>
-          {isLoading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
-      <Link to={'/register'}>회원가입하기</Link>
-    </>
+    <LoginPageContainer>
+      <LoginBox>
+        <Logo>Encar</Logo>
+        <LogoSub>BBL-ONLINE</LogoSub>
+        <CheckboxContainer>
+          <input
+            type='checkbox'
+            id='rememberId'
+            checked={rememberId}
+            onChange={handleCheckboxChange}
+          />
+          <label htmlFor='rememberId'>아이디 저장</label>
+        </CheckboxContainer>
+        <form onSubmit={onSubmit}>
+          <Input
+            type='email'
+            value={email}
+            onChange={onEmailChange}
+            placeholder='Email'
+            required
+          />
+          <Input
+            type='password'
+            value={password}
+            onChange={(e) => onPasswordChange(e.target.value)}
+            placeholder='Password'
+            required
+          />
+          <LoginButton type='submit' disabled={isLoading}>
+            {isLoading ? 'Logging in...' : 'Login'}
+          </LoginButton>
+        </form>
+        <FooterLinks>
+          <Link to={'/register'}>회원가입하기</Link>
+        </FooterLinks>
+        <FooterText>© Encar 1599-5455</FooterText>
+      </LoginBox>
+    </LoginPageContainer>
   );
 };
 
 export default LoginForm;
+
+// styled
+
+const LoginPageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  background-color: #f9f9f9;
+  padding: 20px;
+  box-sizing: border-box;
+`;
+
+const LoginBox = styled.div`
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+`;
+
+const Logo = styled.h1`
+  font-size: 36px;
+  color: #d43131;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+`;
+const LogoSub = styled.p`
+  font-size: 18px;
+  color: #d43131;
+  font-weight: 600;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fafafa;
+  &:focus {
+    border-color: #d43131;
+    outline: none;
+  }
+  box-sizing: border-box;
+`;
+
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
+
+  input[type='checkbox'] {
+    margin-right: 8px;
+    accent-color: #d43131;
+  }
+`;
+
+const LoginButton = styled.button`
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #d43131;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  &:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+`;
+
+const FooterLinks = styled.div`
+  margin-top: 16px;
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  a {
+    color: #666;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
+const FooterText = styled.div`
+  margin-top: 30px;
+  font-size: 12px;
+  color: #999;
+`;

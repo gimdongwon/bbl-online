@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '../../api/auth';
 import { useAuthStore } from '../../store/authStore';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginContainer: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberId, setRememberId] = useState(false);
   const setToken = useAuthStore((state) => state.setToken);
   const navigate = useNavigate();
 
@@ -40,14 +41,45 @@ const LoginContainer: React.FC = () => {
     loginMutation.mutate({ email, password });
   };
 
+  // 페이지 로드 시 localStorage에서 아이디 복원
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('savedEmail');
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberId(true);
+    }
+  }, []);
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    setRememberId(isChecked);
+
+    if (isChecked) {
+      localStorage.setItem('savedEmail', email); // 아이디 저장
+    } else {
+      localStorage.removeItem('savedEmail'); // 저장된 아이디 삭제
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    if (rememberId) {
+      localStorage.setItem('savedEmail', value); // 저장된 아이디 업데이트
+    }
+  };
+
   return (
     <LoginForm
       email={email}
       password={password}
-      onEmailChange={setEmail}
+      onEmailChange={handleEmailChange}
       onPasswordChange={setPassword}
       onSubmit={handleSubmit}
       isLoading={loginMutation.isPending}
+      rememberId={rememberId}
+      handleCheckboxChange={handleCheckboxChange}
     />
   );
 };
