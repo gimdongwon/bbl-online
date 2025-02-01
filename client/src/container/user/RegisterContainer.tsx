@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { registerUser } from '../../api/auth';
-import FormInput from '../../components/FormInput';
+import RegisterForm from '../../components/RegisterForm';
 
 const RegisterFormContainer: React.FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const registerMutation = useMutation<
     { message: string }, // 성공 시 반환 타입
@@ -32,25 +32,15 @@ const RegisterFormContainer: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Register</h2>
-      <FormInput
-        label='Name'
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <FormInput
-        label='Email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <FormInput
-        label='Password'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type='submit'>Register</button>
-    </form>
+    <RegisterForm
+      handleSubmit={handleSubmit}
+      name={name}
+      setName={setName}
+      email={email}
+      setEmail={setEmail}
+      password={password}
+      setPassword={setPassword}
+    />
   );
 };
 
