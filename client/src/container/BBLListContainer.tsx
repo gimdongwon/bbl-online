@@ -3,13 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchBBLList } from '../api/bbl';
 import BBLItem from '../components/BBLItem';
 import { BBL, BBLList } from '../types';
-import LogoutButton from '../components/LogoutButton';
-import BBLIssueContainer from './BBLIssueContainer';
 import { useAuthStore } from '../store';
 
 const BBLListContainer: React.FC = () => {
   const fetchUser = useAuthStore((state) => state.fetchUser);
-  const { user, token } = useAuthStore();
+  const { token } = useAuthStore();
   const {
     data: bblList,
     isLoading,
@@ -31,9 +29,6 @@ const BBLListContainer: React.FC = () => {
   return (
     <div>
       <h2>BBL List</h2>
-      {user?.name}
-      <LogoutButton />
-      <BBLIssueContainer />
       {bblList?.bbls?.map((bbl: BBL) => (
         <BBLItem
           key={bbl._id}
