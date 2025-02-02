@@ -3,6 +3,7 @@ import LogoutButton from '../components/LogoutButton';
 import BBLIssueContainer from '../container/BBLIssueContainer';
 import { useAuthStore } from '../store';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const IndexPage: React.FC = () => {
   const { user, token } = useAuthStore();
@@ -22,6 +23,9 @@ const IndexPage: React.FC = () => {
         <LogoutButton />
       </UserInfo>
       <BBLIssueContainer />
+      <LinkWrap>
+        <Link to={'/list'}>BBL 리스트 보러가기</Link>
+      </LinkWrap>
     </Container>
   );
 };
@@ -49,14 +53,6 @@ const WelcomeMessage = styled.h1`
   color: #333;
 `;
 
-// const Header = styled.header`
-//   display: flex;
-//   justify-content: flex-end;
-//   padding: 10px 20px;
-//   background-color: #fff;
-//   border-bottom: 1px solid #ddd;
-// `;
-
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
@@ -65,5 +61,19 @@ const UserInfo = styled.div`
   span {
     font-size: 14px;
     color: #333;
+  }
+`;
+
+const LinkWrap = styled.div`
+  margin-top: 16px;
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  a {
+    color: #666;
+    text-decoration: underline;
   }
 `;

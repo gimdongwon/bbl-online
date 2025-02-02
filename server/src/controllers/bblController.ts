@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import BBL from '../models/BBL';
+import User from '../models/User';
 import { sendEmail } from '../utils/email';
 
 export const issueBBL = async (req: Request, res: Response): Promise<void> => {
@@ -36,6 +37,11 @@ export const issueBBL = async (req: Request, res: Response): Promise<void> => {
     const savedBBL = await newBBL.save();
 
     // 이메일 알림 발송
+    const issuer = await User.findOne({ companyNo: issuerId });
+    if (!issuer) {
+      throw new Error('사용자의 이메일이 없어 이메일 보내기에 실패하였습니다.');
+    }
+
     const emailSubject = `BBL Issued: ${newBBLNo}`;
     const emailText = `Hi ${recipientName},\n\nYou have received a BBL.\n\nDetails:\n- Issuer: ${issuerId}\n- Purpose: ${purpose}\n- Amount: ${amount}\n\nThank you.`;
     const emailHtml = `
@@ -50,7 +56,7 @@ export const issueBBL = async (req: Request, res: Response): Promise<void> => {
       <p>Thank you.</p>
     `;
 
-    await sendEmail('dongwon@likelion.org', emailSubject, emailText, emailHtml);
+    await sendEmail(issuer.email, emailSubject, emailText, emailHtml);
 
     res.status(201).json({
       message: 'BBL issued successfully and email sent',
@@ -75,7 +81,18 @@ export const getAllBBLs = async (
   res: Response
 ): Promise<void> => {
   try {
-    const bbls = await BBL.find(); // 모든 BBL 데이터 조회
+    const bblList = await BBL.find(); // 모든 BBL 데이터 조회
+    // issuerId로 사용자 이름을 조회하여 추가
+    const bbls = await Promise.all(
+      bblList.map(async (bbl) => {
+        const issuer = await User.findOne({ companyNo: bbl.issuerId }); // issuerId로 사용자 찾기
+
+        return {
+          ...bbl.toObject(), // 기존 BBL 데이터를 유지
+          issuerName: issuer?.name || 'Unknown', // 사용자 이름 추가 (없으면 'Unknown')
+        };
+      })
+    );
     res.status(200).json({ bbls });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while fetching BBLs' });

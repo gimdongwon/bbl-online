@@ -1,10 +1,11 @@
-export interface BBLList {
-  bbls: BBL[];
+export interface BBLListType {
+  bbls: BBLType[];
 }
 
-export interface BBL {
+export interface BBLType {
   _id: string;
   issuerId: string;
+  issuerName: string;
   recipientName: string;
   recipientTeam: string;
   purpose: string;
@@ -12,5 +13,4 @@ export interface BBL {
   issueDate: string;
   employeeId: string;
   amount: number;
-  __v: number;
 }
