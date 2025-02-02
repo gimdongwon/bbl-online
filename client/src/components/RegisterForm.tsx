@@ -8,6 +8,8 @@ interface RegisterFormProps {
   setName: (value: string) => void;
   email: string;
   setEmail: (value: string) => void;
+  companyNo: string;
+  setCompanyNo: (value: string) => void;
   password: string;
   setPassword: (value: string) => void;
 }
@@ -18,6 +20,8 @@ const RegisterFormContainer: React.FC<RegisterFormProps> = ({
   setName,
   email,
   setEmail,
+  companyNo,
+  setCompanyNo,
   password,
   setPassword,
 }) => {
@@ -39,6 +43,13 @@ const RegisterFormContainer: React.FC<RegisterFormProps> = ({
             onChange={(e) => setEmail(e.target.value)}
             aria-label='email'
             placeholder='email'
+          />
+          <Input
+            type='companyNo'
+            value={companyNo}
+            onChange={(e) => setCompanyNo(e.target.value)}
+            aria-label='companyNo'
+            placeholder='companyNo'
           />
           <Input
             type='password'

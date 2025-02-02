@@ -3,6 +3,7 @@ import axios from './axios';
 export const registerUser = async (data: {
   name: string;
   email: string;
+  companyNo: string;
   password: string;
 }): Promise<{ message: string }> => {
   const response = await axios.post('/auth/register', data);
@@ -14,7 +15,7 @@ export const loginUser = async (data: {
   password: string;
 }): Promise<{
   token: string;
-  user: { name: string; email: string; id: string };
+  user: { name: string; email: string; companyNo: string; id: string };
 }> => {
   const response = await axios.post('/auth/login', data);
   return response.data;

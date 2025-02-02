@@ -4,7 +4,7 @@ export interface BBLList {
 
 export interface BBL {
   _id: string;
-  issuer: string;
+  issuerId: string;
   recipientName: string;
   recipientTeam: string;
   purpose: string;

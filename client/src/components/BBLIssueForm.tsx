@@ -4,9 +4,11 @@ import styled from 'styled-components';
 interface BBLApplyFormProps {
   recipientName: string;
   recipientTeam: string;
+  recipientId: string;
   purpose: string;
   amount: number | '';
   onRecipientChange: (value: string) => void;
+  onRecipientIdChange: (value: string) => void;
   onRecipientTeamChange: (value: string) => void;
   onPurposeChange: (value: string) => void;
   onAmountChange: (value: number | '') => void;
@@ -17,9 +19,11 @@ interface BBLApplyFormProps {
 const BBLApplyForm: React.FC<BBLApplyFormProps> = ({
   recipientName,
   recipientTeam,
+  recipientId,
   purpose,
   amount,
   onRecipientChange,
+  onRecipientIdChange,
   onRecipientTeamChange,
   onPurposeChange,
   onAmountChange,
@@ -29,7 +33,7 @@ const BBLApplyForm: React.FC<BBLApplyFormProps> = ({
   return (
     <FormContainer>
       <Form onSubmit={onSubmit}>
-        <Title>BBL 신청</Title>
+        <Title>BBL 발행</Title>
         <Input
           type='text'
           value={recipientName}
@@ -39,16 +43,16 @@ const BBLApplyForm: React.FC<BBLApplyFormProps> = ({
         />
         <Input
           type='text'
-          value={recipientTeam}
-          onChange={(e) => onRecipientTeamChange(e.target.value)}
-          placeholder='수령인 팀'
+          value={recipientId}
+          onChange={(e) => onRecipientIdChange(e.target.value)}
+          placeholder='수령인 사번'
           required
         />
         <Input
           type='text'
-          value={purpose}
-          onChange={(e) => onPurposeChange(e.target.value)}
-          placeholder='발행 목적'
+          value={recipientTeam}
+          onChange={(e) => onRecipientTeamChange(e.target.value)}
+          placeholder='수령인 팀'
           required
         />
         <Select
@@ -61,6 +65,13 @@ const BBLApplyForm: React.FC<BBLApplyFormProps> = ({
           <option value={30}>30</option>
           <option value={50}>50</option>
         </Select>
+        <Input
+          type='text'
+          value={purpose}
+          onChange={(e) => onPurposeChange(e.target.value)}
+          placeholder='발행 목적'
+          required
+        />
         <SubmitButton type='submit' disabled={isLoading}>
           {isLoading ? '발행 중...' : '발행하기'}
         </SubmitButton>

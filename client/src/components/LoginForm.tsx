@@ -121,11 +121,28 @@ const CheckboxContainer = styled.div`
   justify-content: start;
   margin-bottom: 20px;
   font-size: 14px;
-  color: #666;
 
   input[type='checkbox'] {
     margin-right: 8px;
-    accent-color: #d43131;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ccc; /* 기본 테두리 */
+    border-radius: 4px;
+    background-color: white; /* 기본 배경 */
+    cursor: pointer;
+    appearance: none;
+  }
+  input[type='checkbox']:checked {
+    background-color: #d43131; /* 체크된 배경 */
+    border-color: #d43131;
+    content: '✔'; /* 체크 표시 추가 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* 체크 표시 색상 */
+  }
+  label {
+    cursor: pointer; /* 라벨 클릭 시 체크박스 활성화 */
   }
 `;
 

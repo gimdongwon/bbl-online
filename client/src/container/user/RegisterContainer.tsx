@@ -7,19 +7,21 @@ import { useNavigate } from 'react-router-dom';
 const RegisterFormContainer: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [companyNo, setCompanyNo] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
 
   const registerMutation = useMutation<
     { message: string }, // 성공 시 반환 타입
     Error, // 에러 타입
-    { name: string; email: string; password: string } // 요청 파라미터 타입
+    { name: string; email: string; companyNo: string; password: string } // 요청 파라미터 타입
   >({
     mutationFn: registerUser,
     onSuccess: (data) => {
       alert(data.message);
       setName('');
       setEmail('');
+      setCompanyNo('');
       setPassword('');
       navigate('/login');
     },
@@ -31,7 +33,7 @@ const RegisterFormContainer: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    registerMutation.mutate({ name, email, password });
+    registerMutation.mutate({ name, email, companyNo, password });
   };
 
   return (
@@ -41,6 +43,8 @@ const RegisterFormContainer: React.FC = () => {
       setName={setName}
       email={email}
       setEmail={setEmail}
+      companyNo={companyNo}
+      setCompanyNo={setCompanyNo}
       password={password}
       setPassword={setPassword}
     />

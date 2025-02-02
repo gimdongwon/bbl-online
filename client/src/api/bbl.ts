@@ -11,9 +11,10 @@ export const fetchBBLList = async (): Promise<BBLList> => {
 export const issueBBL = async (data: {
   recipientName: string;
   recipientTeam: string;
+  recipientId: string;
   purpose: string;
   amount: number;
-  issuer: string;
+  issuerId: string;
 }) => {
   const token = localStorage.getItem('token');
   const response = await axios.post('/bbl/issue', data, {

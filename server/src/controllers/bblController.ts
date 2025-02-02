@@ -4,39 +4,46 @@ import { sendEmail } from '../utils/email';
 
 export const issueBBL = async (req: Request, res: Response): Promise<void> => {
   const {
-    issuer,
     recipientName,
     recipientTeam,
+    recipientId,
+    issuerId,
     purpose,
-    bblNo,
-    issueDate,
-    employeeId,
     amount,
   } = req.body;
 
   try {
+    // 가장 마지막으로 발행된 동일 금액의 BBL의 bblNo를 가져옴
+    const lastBBL = await BBL.findOne({ amount }) // 같은 금액만 검색
+      .sort({ bblNo: -1 }) // bblNo 역순 정렬
+      .exec();
+
+    // 새로운 bblNo 계산
+    const lastBBLNo = lastBBL ? parseInt(lastBBL.bblNo) : amount * 1000000; // 없으면 초기값
+    const newBBLNo = (lastBBLNo + 1).toString();
+
     const newBBL = new BBL({
-      issuer,
       recipientName,
       recipientTeam,
+      recipientId,
       purpose,
-      bblNo,
-      issueDate: new Date(issueDate),
-      employeeId,
+      issuerId,
       amount,
+      bblNo: newBBLNo,
+      issueDate: new Date(),
     });
 
     const savedBBL = await newBBL.save();
 
     // 이메일 알림 발송
-    const emailSubject = `BBL Issued: ${bblNo}`;
-    const emailText = `Hi ${recipientName},\n\nYou have received a BBL.\n\nDetails:\n- Issuer: ${issuer}\n- Purpose: ${purpose}\n- Amount: ${amount}\n\nThank you.`;
+    const emailSubject = `BBL Issued: ${newBBLNo}`;
+    const emailText = `Hi ${recipientName},\n\nYou have received a BBL.\n\nDetails:\n- Issuer: ${issuerId}\n- Purpose: ${purpose}\n- Amount: ${amount}\n\nThank you.`;
     const emailHtml = `
       <h1>BBL Issued</h1>
       <p><strong>Hi ${recipientName},</strong></p>
       <p>You have received a BBL.</p>
       <ul>
-        <li><strong>Issuer:</strong> ${issuer}</li>
+        <li><strong>Issuer:</strong> ${issuerId}</li>
         <li><strong>Purpose:</strong> ${purpose}</li>
         <li><strong>Amount:</strong> ${amount}</li>
       </ul>
