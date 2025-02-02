@@ -12,9 +12,6 @@ export const issueBBL = async (data: {
   recipientName: string;
   recipientTeam: string;
   purpose: string;
-  bblNo: string;
-  issueDate: string;
-  employeeId: string;
   amount: number;
   issuer: string;
 }) => {

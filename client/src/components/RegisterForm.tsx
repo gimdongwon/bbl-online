@@ -1,6 +1,6 @@
 import React from 'react';
-import FormInput from '../components/FormInput';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 interface RegisterFormProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -25,24 +25,33 @@ const RegisterFormContainer: React.FC<RegisterFormProps> = ({
     <Container>
       <RegisterBox>
         <Title>회원가입 페이지</Title>
-        <Form onSubmit={handleSubmit}>
-          <FormInput
-            label='Name'
+        <form onSubmit={handleSubmit}>
+          <Input
+            type='name'
             value={name}
             onChange={(e) => setName(e.target.value)}
+            aria-label='email'
+            placeholder='name'
           />
-          <FormInput
-            label='Email'
+          <Input
+            type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            aria-label='email'
+            placeholder='email'
           />
-          <FormInput
-            label='Password'
+          <Input
+            type='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            aria-label='password'
+            placeholder='password'
           />
-          <RegisterButton type='submit'>Register</RegisterButton>
-        </Form>
+          <RegisterButton type='submit'>다음</RegisterButton>
+        </form>
+        <LoginLink>
+          <Link to={'/login'}>로그인하러가기</Link>
+        </LoginLink>
       </RegisterBox>
     </Container>
   );
@@ -57,43 +66,66 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  width: 100%;
   background-color: #f9f9f9;
   padding: 20px;
 `;
 
 const RegisterBox = styled.div`
-  width: 360px;
+  max-width: 475px;
   background-color: #fff;
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  box-sizing: border-box;
 `;
 
 const Title = styled.h1`
   font-size: 24px;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
+const Input = styled.input`
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fafafa;
+  &:focus {
+    border-color: #d43131;
+    outline: none;
+  }
 `;
 
 const RegisterButton = styled.button`
   width: 100%;
   padding: 12px 16px;
+  margin-top: 30px;
   background-color: #d43131;
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
-  box-sizing: border-box;
   &:disabled {
     background-color: #ddd;
     cursor: not-allowed;
+  }
+`;
+
+const LoginLink = styled.div`
+  margin-top: 16px;
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  a {
+    color: #666;
+    text-decoration: underline;
   }
 `;

@@ -7,9 +7,6 @@ const BBLIssueContainer: React.FC = () => {
   const [recipientName, setRecipientName] = useState('');
   const [recipientTeam, setRecipientTeam] = useState('');
   const [purpose, setPurpose] = useState('');
-  const [bblNo, setBblNo] = useState('');
-  const [issueDate, setIssueDate] = useState('');
-  const [employeeId, setEmployeeId] = useState('');
   const [amount, setAmount] = useState<number | ''>('');
   const queryClient = useQueryClient(); // React Query의 QueryClient 사용
 
@@ -26,15 +23,7 @@ const BBLIssueContainer: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      !recipientName ||
-      !recipientTeam ||
-      !purpose ||
-      !bblNo ||
-      !issueDate ||
-      !employeeId ||
-      !amount
-    ) {
+    if (!recipientName || !recipientTeam || !purpose || !amount) {
       alert('모든 필드를 입력해주세요.');
       return;
     }
@@ -42,9 +31,6 @@ const BBLIssueContainer: React.FC = () => {
       recipientName,
       recipientTeam,
       purpose,
-      bblNo,
-      issueDate,
-      employeeId,
       amount: Number(amount),
       issuer: '인사팀',
     });
@@ -55,16 +41,10 @@ const BBLIssueContainer: React.FC = () => {
       recipientName={recipientName}
       recipientTeam={recipientTeam}
       purpose={purpose}
-      bblNo={bblNo}
-      issueDate={issueDate}
-      employeeId={employeeId}
       amount={amount}
       onRecipientChange={setRecipientName}
       onRecipientTeamChange={setRecipientTeam}
       onPurposeChange={setPurpose}
-      onBblNoChange={setBblNo}
-      onIssueDateChange={setIssueDate}
-      onEmployeeIdChange={setEmployeeId}
       onAmountChange={setAmount}
       onSubmit={handleSubmit}
       isLoading={issueBBLMutation.isPending}

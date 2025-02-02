@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { registerUser } from '../../api/auth';
 import RegisterForm from '../../components/RegisterForm';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterFormContainer: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const navigate = useNavigate();
 
   const registerMutation = useMutation<
     { message: string }, // 성공 시 반환 타입
@@ -19,6 +21,7 @@ const RegisterFormContainer: React.FC = () => {
       setName('');
       setEmail('');
       setPassword('');
+      navigate('/login');
     },
     onError: (error) => {
       console.error('회원가입 실패:', error);

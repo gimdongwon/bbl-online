@@ -44,6 +44,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             onChange={onEmailChange}
             placeholder='Email'
             required
+            aria-label={email}
           />
           <Input
             type='password'
@@ -51,6 +52,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             onChange={(e) => onPasswordChange(e.target.value)}
             placeholder='Password'
             required
+            aria-label='password'
           />
           <LoginButton type='submit' disabled={isLoading}>
             {isLoading ? 'Logging in...' : 'Login'}
@@ -59,7 +61,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <FooterLinks>
           <Link to={'/register'}>회원가입하기</Link>
         </FooterLinks>
-        <FooterText>© Encar 1599-5455</FooterText>
+        <FooterText>FE2 winter1 © Encar 1599-5455</FooterText>
       </LoginBox>
     </LoginPageContainer>
   );
@@ -77,7 +79,6 @@ const LoginPageContainer = styled.div`
   min-height: 100%;
   background-color: #f9f9f9;
   padding: 20px;
-  box-sizing: border-box;
 `;
 
 const LoginBox = styled.div`
@@ -96,7 +97,7 @@ const Logo = styled.h1`
 `;
 const LogoSub = styled.p`
   font-size: 18px;
-  color: #d43131;
+  color: #666;
   font-weight: 600;
 `;
 
@@ -112,7 +113,6 @@ const Input = styled.input`
     border-color: #d43131;
     outline: none;
   }
-  box-sizing: border-box;
 `;
 
 const CheckboxContainer = styled.div`
@@ -154,10 +154,7 @@ const FooterLinks = styled.div`
 
   a {
     color: #666;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
+    text-decoration: underline;
   }
 `;
 
