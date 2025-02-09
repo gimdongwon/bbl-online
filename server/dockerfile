@@ -1,0 +1,30 @@
+# Node.js 20 LTS 버전 사용
+FROM node:20-alpine AS build
+
+# 작업 디렉토리 설정
+WORKDIR /app
+
+# 패키지 매니저 캐시 활용 (package.json과 yarn.lock을 먼저 복사)
+COPY package.json yarn.lock ./
+
+# 패키지 설치
+RUN yarn install
+
+# 소스 코드 복사
+COPY . .
+
+# TypeScript 빌드 (dist 폴더 생성)
+RUN yarn build
+
+# 실행을 위한 최종 스테이지
+FROM node:20-alpine
+
+WORKDIR /app
+
+# 빌드 결과물과 필요한 파일만 복사
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./
+
+# 서버 실행
+CMD ["node", "dist/index.js"]

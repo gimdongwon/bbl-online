@@ -1,0 +1,38 @@
+services:
+  server:
+    build:
+      context: ./server
+    ports:
+      - '5001:5001'
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/bbl-online
+      - JWT_SECRET=your_secret_key
+      - SMTP_USER=your_smtp_user
+      - SMTP_PASS=your_smtp_password
+    depends_on:
+      - mongo
+    command: ['node', 'dist/index.js'] # dist 폴더에서 실행
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - REACT_APP_API_BASE_URL=http://bbl-online-server:5001/api
+    volumes:
+      - ./client:/app
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+networks:
+  bbl-networks:
+volumes:
+  mongo-data:
