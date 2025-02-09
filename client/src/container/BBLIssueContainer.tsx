@@ -27,13 +27,13 @@ const BBLIssueContainer: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!recipientName || !recipientTeam || !purpose || !amount) {
-      alert('모든 필드를 입력해주세요.');
-      return;
-    }
     if (!user) {
       alert('로그인 유저 정보가 없습니다. 로그인을 다시 해주세요');
       logout();
+      return;
+    }
+    if (!recipientName || !recipientTeam || !purpose || !amount) {
+      alert('모든 필드를 입력해주세요.');
       return;
     }
     issueBBLMutation.mutate({

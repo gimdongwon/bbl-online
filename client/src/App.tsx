@@ -10,16 +10,11 @@ const App: React.FC = () => {
   return (
     <Routes>
       <Route path='/login' element={<LoginPage />} />
-      <Route path='/list' element={<ListPage />} />
       <Route path='/register' element={<RegisterPage />} />
-      <Route
-        path='/'
-        element={
-          <ProtectedRoute>
-            <IndexPage />
-          </ProtectedRoute>
-        }
-      />
+      <Route element={<ProtectedRoute />}>
+        <Route path='/list' element={<ListPage />} />
+        <Route path='/' element={<IndexPage />} />
+      </Route>
     </Routes>
   );
 };

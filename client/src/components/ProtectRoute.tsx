@@ -1,10 +1,8 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../store/index';
 
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const ProtectedRoute: React.FC = () => {
   const token =
     useAuthStore((state) => state.token) || localStorage.getItem('token');
 
@@ -12,7 +10,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
     return <Navigate to='/login' replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

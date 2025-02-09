@@ -10,9 +10,10 @@ const IndexPage: React.FC = () => {
   const fetchUser = useAuthStore((state) => state.fetchUser);
 
   useEffect(() => {
-    if (token) {
-      fetchUser();
+    if (!token) {
+      return;
     }
+    fetchUser();
   }, [fetchUser, token]);
 
   return (

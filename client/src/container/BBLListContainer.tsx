@@ -20,10 +20,11 @@ const BBLListContainer: React.FC = () => {
   });
 
   useEffect(() => {
-    if (token) {
-      fetchUser();
+    if (!token || isLoading) {
+      return;
     }
-  }, [fetchUser, token]);
+    fetchUser();
+  }, [fetchUser, token, isLoading]);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading BBL list.</p>;

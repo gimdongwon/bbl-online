@@ -10,7 +10,13 @@ const app = express();
 // CORS 설정 (항상 맨 위에 위치시킵니다!)
 app.use(
   cors({
-    origin: 'http://localhost:5173', // 모든 도메인 허용
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:3000',
+      'http://localhost',
+      'http://111.118.40.51:5002',
+      'http://192.168.0.18:5173',
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // 허용할 HTTP 메서드
     allowedHeaders: ['Content-Type', 'Authorization'], // 허용할 헤더
   })

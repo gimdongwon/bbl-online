@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { BBLListType, BBLType } from '../types';
 
 const BBLList = ({ bblList }: { bblList: BBLListType }) => {
-  console.log(bblList);
   return (
     <Container>
       <Title>BBL List</Title>
