@@ -11,7 +11,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      'http://localhost:5173',
+      'http://localhost:5002',
       'http://localhost:3000',
       'http://localhost',
       'http://111.118.40.51:5002',

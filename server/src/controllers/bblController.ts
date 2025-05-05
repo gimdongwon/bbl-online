@@ -75,21 +75,49 @@ export const issueBBL = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+interface AuthenticatedRequest extends Request {
+  user?: string;
+}
 // 모든 BBL 리스트 반환
-export const getAllBBLs = async (
-  req: Request,
+export const getBBLList = async (
+  req: AuthenticatedRequest,
   res: Response
 ): Promise<void> => {
   try {
-    const bblList = await BBL.find(); // 모든 BBL 데이터 조회
-    // issuerId로 사용자 이름을 조회하여 추가
+    // 로그인 권한 없을시 return;
+    const userId = req.user as string | undefined;
+
+    if (!userId) {
+      res.status(401).json({ message: 'Unauthorized..' });
+      return;
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+    // admin 권한을 가진 사용자 리스트
+    const adminUserList: string[] = ['10685', '10933', '11008'];
+    const isAdmin: boolean = adminUserList.includes(user.companyNo);
+    const query: Record<string, string> = isAdmin
+      ? {}
+      : { issuerId: user.companyNo };
+
+    const bblList = await BBL.find(query); // 본인이 발행한 BBL 데이터 조회
+
+    // issuerId로 사용자 이름을 조회하여 추가 (res에 추가하기 name 추가하기 위한 로직)
     const bbls = await Promise.all(
       bblList.map(async (bbl) => {
-        const issuer = await User.findOne({ companyNo: bbl.issuerId }); // issuerId로 사용자 찾기
-
+        let issuerName = 'Unknown';
+        if (bbl.issuerId === user.companyNo) {
+          issuerName = user.name;
+        } else {
+          const issuer = await User.findOne({ companyNo: bbl.issuerId });
+          issuerName = issuer?.name || 'Unknown';
+        }
         return {
           ...bbl.toObject(), // 기존 BBL 데이터를 유지
-          issuerName: issuer?.name || 'Unknown', // 사용자 이름 추가 (없으면 'Unknown')
+          issuerName,
         };
       })
     );

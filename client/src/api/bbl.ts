@@ -3,7 +3,12 @@ import { BBLListType } from '../types';
 
 // BBL 리스트 가져오기
 export const fetchBBLList = async (): Promise<BBLListType> => {
-  const response = await axios.get('/bbl/list'); // '/api/bbl' 경로는 baseURL에 포함됨
+  const token = localStorage.getItem('token');
+  const response = await axios.get('/bbl/list', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }); // '/api/bbl' 경로는 baseURL에 포함됨
   return response.data;
 };
 
