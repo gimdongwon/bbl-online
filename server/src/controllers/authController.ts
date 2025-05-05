@@ -33,7 +33,14 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 // 회원 리스트 반환
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
-    const users = await User.find({}, 'name email'); // 비밀번호 제외
+    const { name } = req.query;
+
+    const query =
+      typeof name === 'string' && name.trim()
+        ? { name: { $regex: name.trim(), $options: 'i' } }
+        : {}; // name이 없거나 빈값이면 전체 검색
+
+    const users = await User.find(query, 'name companyNo team').limit(30); // 비밀번호 제외
     res.status(200).json({ users });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch users' });

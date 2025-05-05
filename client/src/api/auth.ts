@@ -1,4 +1,4 @@
-import axios from './axios';
+import { publicInstance, privateInstance } from './axios';
 
 export const registerUser = async (data: {
   name: string;
@@ -6,7 +6,7 @@ export const registerUser = async (data: {
   companyNo: string;
   password: string;
 }): Promise<{ message: string }> => {
-  const response = await axios.post('/auth/register', data);
+  const response = await publicInstance.post('/auth/register', data);
   return response.data;
 };
 
@@ -17,14 +17,18 @@ export const loginUser = async (data: {
   token: string;
   user: { name: string; email: string; companyNo: string; id: string };
 }> => {
-  const response = await axios.post('/auth/login', data);
+  const response = await publicInstance.post('/auth/login', data);
   return response.data;
 };
 
 export const getUser = async () => {
-  const token = localStorage.getItem('token');
-  const response = await axios.get('/auth/me', {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const response = await privateInstance.get('/auth/me');
   return response.data.user;
+};
+
+export const getSearchUser = async (name: string) => {
+  const response = await privateInstance.get('/auth/users', {
+    params: { name },
+  });
+  return response.data.users;
 };

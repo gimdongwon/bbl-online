@@ -1,61 +1,71 @@
 import React from 'react';
 import styled from 'styled-components';
+import Select from 'react-select';
 
-interface BBLApplyFormProps {
-  recipientName: string;
-  recipientTeam: string;
-  recipientId: string;
+interface UserOption {
+  label: string;
+  value: string;
+  team: string;
+  companyNo: string;
+}
+interface BBLIssueFormProps {
+  selectedUser: UserOption;
   purpose: string;
   amount: number | '';
-  onRecipientChange: (value: string) => void;
-  onRecipientIdChange: (value: string) => void;
-  onRecipientTeamChange: (value: string) => void;
+  onSelectUser: (user: UserOption | null) => void;
   onPurposeChange: (value: string) => void;
   onAmountChange: (value: number | '') => void;
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
+  userOptions: UserOption[];
+  onInputChange: (inputValue: string) => void;
 }
 
-const BBLApplyForm: React.FC<BBLApplyFormProps> = ({
-  recipientName,
-  recipientTeam,
-  recipientId,
+const BBLIssueForm: React.FC<BBLIssueFormProps> = ({
+  selectedUser,
   purpose,
   amount,
-  onRecipientChange,
-  onRecipientIdChange,
-  onRecipientTeamChange,
+  onSelectUser,
+  // handleInputChange,
   onPurposeChange,
   onAmountChange,
   onSubmit,
   isLoading,
+  userOptions,
+  onInputChange,
 }) => {
   return (
     <FormContainer>
       <Form onSubmit={onSubmit}>
         <Title>BBL 발행</Title>
-        <Input
+        {/* <Input
           type='text'
           value={recipientName}
           onChange={(e) => onRecipientChange(e.target.value)}
           placeholder='수령인 이름'
           required
-        />
-        <Input
-          type='text'
-          value={recipientId}
-          onChange={(e) => onRecipientIdChange(e.target.value)}
-          placeholder='수령인 사번'
-          required
-        />
-        <Input
-          type='text'
-          value={recipientTeam}
-          onChange={(e) => onRecipientTeamChange(e.target.value)}
-          placeholder='수령인 팀'
-          required
-        />
+        /> */}
         <Select
+          placeholder='수령인 이름 검색'
+          value={selectedUser}
+          onChange={onSelectUser}
+          onInputChange={onInputChange}
+          options={userOptions}
+          isClearable
+        />
+        <Input
+          type='text'
+          value={selectedUser?.companyNo || ''}
+          placeholder='수령인 사번'
+          disabled
+        />
+        <Input
+          type='text'
+          value={selectedUser?.team || ''}
+          placeholder='수령인 팀'
+          disabled
+        />
+        <SelectBox
           value={amount}
           onChange={(e) => onAmountChange(Number(e.target.value))}
           required
@@ -64,7 +74,7 @@ const BBLApplyForm: React.FC<BBLApplyFormProps> = ({
           <option value={10}>10</option>
           <option value={30}>30</option>
           <option value={50}>50</option>
-        </Select>
+        </SelectBox>
         <Input
           type='text'
           value={purpose}
@@ -80,7 +90,7 @@ const BBLApplyForm: React.FC<BBLApplyFormProps> = ({
   );
 };
 
-export default BBLApplyForm;
+export default BBLIssueForm;
 
 const FormContainer = styled.div`
   width: 100%;
@@ -118,7 +128,7 @@ const Input = styled.input`
   }
 `;
 
-const Select = styled.select`
+const SelectBox = styled.select`
   width: 100%;
   padding: 12px 16px;
   margin-bottom: 16px;

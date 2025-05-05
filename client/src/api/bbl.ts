@@ -1,14 +1,9 @@
-import axios from './axios';
+import { privateInstance } from './axios';
 import { BBLListType } from '../types';
 
 // BBL 리스트 가져오기
 export const fetchBBLList = async (): Promise<BBLListType> => {
-  const token = localStorage.getItem('token');
-  const response = await axios.get('/bbl/list', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }); // '/api/bbl' 경로는 baseURL에 포함됨
+  const response = await privateInstance.get('/bbl/list'); // '/api/bbl' 경로는 baseURL에 포함됨
   return response.data;
 };
 
@@ -21,9 +16,6 @@ export const issueBBL = async (data: {
   amount: number;
   issuerId: string;
 }) => {
-  const token = localStorage.getItem('token');
-  const response = await axios.post('/bbl/issue', data, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const response = await privateInstance.post('/bbl/issue', data);
   return response.data;
 };

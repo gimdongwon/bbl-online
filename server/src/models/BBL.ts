@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IBBL extends Document {
+export interface BBLType extends Document {
   recipientName: string; // 대상자 이름
   recipientTeam: string; // 대상자 팀
   recipientId: string; // 대상자 사번
@@ -22,4 +22,4 @@ const BBLSchema: Schema = new Schema({
   issueDate: { type: Date, required: true },
 });
 
-export default mongoose.model<IBBL>('BBL', BBLSchema);
+export default mongoose.model<BBLType>('BBL', BBLSchema);
