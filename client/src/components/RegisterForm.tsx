@@ -1,60 +1,65 @@
-import React from 'react';
+import React, { FormEventHandler } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Controller, UseFormReturn } from 'react-hook-form';
+import Select from 'react-select';
+import { TEAM_LIST } from '../const/team';
 
-interface RegisterFormProps {
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+interface FormValues {
   name: string;
-  setName: (value: string) => void;
   email: string;
-  setEmail: (value: string) => void;
-  companyNo: string;
-  setCompanyNo: (value: string) => void;
   password: string;
-  setPassword: (value: string) => void;
+  companyNo: string;
+  team: string;
 }
 
-const RegisterFormContainer: React.FC<RegisterFormProps> = ({
-  handleSubmit,
-  name,
-  setName,
-  email,
-  setEmail,
-  companyNo,
-  setCompanyNo,
-  password,
-  setPassword,
-}) => {
+interface RegisterFormProps {
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  methods: UseFormReturn<FormValues>;
+}
+
+const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, methods }) => {
+  const { register, control } = methods;
   return (
     <Container>
       <RegisterBox>
         <Title>회원가입 페이지</Title>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onSubmit}>
           <Input
             type='name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            aria-label='email'
+            {...register('name')}
+            aria-label='name'
             placeholder='name'
           />
           <Input
             type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register('email')}
             aria-label='email'
             placeholder='email'
           />
+          <Controller
+            name='team'
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={TEAM_LIST}
+                placeholder='팀을 선택하세요'
+                onChange={(selected) => field.onChange(selected?.value)} // 값을 문자열로 전달
+                value={TEAM_LIST.find((option) => option.value === field.value)}
+                isClearable
+              />
+            )}
+          />
           <Input
             type='companyNo'
-            value={companyNo}
-            onChange={(e) => setCompanyNo(e.target.value)}
+            {...register('companyNo')}
             aria-label='companyNo'
             placeholder='companyNo'
           />
           <Input
             type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register('password')}
             aria-label='password'
             placeholder='password'
           />
@@ -68,7 +73,7 @@ const RegisterFormContainer: React.FC<RegisterFormProps> = ({
   );
 };
 
-export default RegisterFormContainer;
+export default RegisterForm;
 
 // --- Styled Components ---
 const Container = styled.div`

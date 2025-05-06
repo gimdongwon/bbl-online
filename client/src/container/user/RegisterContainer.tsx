@@ -1,28 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { registerUser } from '../../api/auth';
 import RegisterForm from '../../components/RegisterForm';
 import { useNavigate } from 'react-router-dom';
 
+interface FormValues {
+  name: string;
+  email: string;
+  companyNo: string;
+  password: string;
+  team: string;
+}
+
 const RegisterFormContainer: React.FC = () => {
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [companyNo, setCompanyNo] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const methods = useForm<FormValues>({
+    defaultValues: {
+      name: '',
+      email: '',
+      companyNo: '',
+      password: '',
+      team: '',
+    },
+  });
   const navigate = useNavigate();
 
   const registerMutation = useMutation<
     { message: string }, // 성공 시 반환 타입
     Error, // 에러 타입
-    { name: string; email: string; companyNo: string; password: string } // 요청 파라미터 타입
+    {
+      name: string;
+      email: string;
+      companyNo: string;
+      password: string;
+      team: string;
+    } // 요청 파라미터 타입
   >({
     mutationFn: registerUser,
     onSuccess: (data) => {
       alert(data.message);
-      setName('');
-      setEmail('');
-      setCompanyNo('');
-      setPassword('');
       navigate('/login');
     },
     onError: (error) => {
@@ -31,23 +47,12 @@ const RegisterFormContainer: React.FC = () => {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    registerMutation.mutate({ name, email, companyNo, password });
+  const onSubmit = (data: FormValues) => {
+    registerMutation.mutate({ ...data });
   };
 
   return (
-    <RegisterForm
-      handleSubmit={handleSubmit}
-      name={name}
-      setName={setName}
-      email={email}
-      setEmail={setEmail}
-      companyNo={companyNo}
-      setCompanyNo={setCompanyNo}
-      password={password}
-      setPassword={setPassword}
-    />
+    <RegisterForm methods={methods} onSubmit={methods.handleSubmit(onSubmit)} />
   );
 };
 

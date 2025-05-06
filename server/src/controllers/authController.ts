@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 // 사용자 등록
 export const register = async (req: Request, res: Response): Promise<void> => {
-  const { name, email, companyNo, password } = req.body;
+  const { name, email, companyNo, password, team } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -14,6 +14,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       email,
       companyNo,
       password: hashedPassword,
+      team,
     });
     const savedUser = await user.save();
     res.status(201).json({
@@ -23,6 +24,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         name: savedUser.name,
         email: savedUser.email,
         companyNo: savedUser.companyNo,
+        team: savedUser.team,
       },
     });
   } catch (error) {

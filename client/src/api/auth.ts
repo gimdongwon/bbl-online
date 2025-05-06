@@ -5,6 +5,7 @@ export const registerUser = async (data: {
   email: string;
   companyNo: string;
   password: string;
+  team: string;
 }): Promise<{ message: string }> => {
   const response = await publicInstance.post('/auth/register', data);
   return response.data;
