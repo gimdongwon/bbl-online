@@ -38,17 +38,10 @@ const BBLIssueForm: React.FC<BBLIssueFormProps> = ({
     <FormContainer>
       <Form onSubmit={onSubmit}>
         <Title>BBL 발행</Title>
-        {/* <Input
-          type='text'
-          value={recipientName}
-          onChange={(e) => onRecipientChange(e.target.value)}
-          placeholder='수령인 이름'
-          required
-        /> */}
-        <Select
+        <StyledSelect
           placeholder='수령인 이름 검색'
           value={selectedUser}
-          onChange={onSelectUser}
+          onChange={(newValue) => onSelectUser(newValue as UserOption | null)}
           onInputChange={onInputChange}
           options={userOptions}
           isClearable
@@ -113,10 +106,61 @@ const Title = styled.h1`
   text-align: center;
 `;
 
+export const StyledSelect = styled(Select).attrs({
+  classNamePrefix: 'custom-select',
+})`
+  .custom-select__control {
+    width: 100%;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fafafa;
+    text-align: left;
+    box-shadow: none;
+    &:hover {
+      border-color: #d43131;
+    }
+  }
+
+  .custom-select__control--is-focused {
+    border-color: #d43131;
+  }
+
+  .custom-select__menu {
+    z-index: 10;
+    margin-top: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden; /* 중요! */
+  }
+
+  .custom-select__menu-list {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0; /* 기본 여백 제거 */
+  }
+
+  .custom-select__option {
+    margin: 0; /* 여백 제거 */
+    border-radius: 0; /* 둥근 테두리 제거로 간격 문제 방지 */
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    text-align: left;
+    padding: 10px;
+
+    &:hover {
+      background-color: #f2f2f2;
+    }
+  }
+`;
+
 const Input = styled.input`
   width: 100%;
   padding: 12px 16px;
-  margin-bottom: 16px;
+  margin-top: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
@@ -131,7 +175,7 @@ const Input = styled.input`
 const SelectBox = styled.select`
   width: 100%;
   padding: 12px 16px;
-  margin-bottom: 16px;
+  margin-top: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;

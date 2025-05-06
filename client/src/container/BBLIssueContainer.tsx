@@ -53,7 +53,7 @@ const BBLIssueContainer: React.FC = () => {
     try {
       const users = await getSearchUser(input);
       const formatted = users.map((user: any) => ({
-        label: `${user.name} (${user.team})`,
+        label: `${user.name} | ${user.companyNo} | ${user.team}`,
         value: user.name,
         team: user.team,
         companyNo: user.companyNo,

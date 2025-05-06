@@ -41,11 +41,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, methods }) => {
             name='team'
             control={control}
             render={({ field }) => (
-              <Select
+              <StyledSelect
                 {...field}
                 options={TEAM_LIST}
-                placeholder='팀을 선택하세요'
-                onChange={(selected) => field.onChange(selected?.value)} // 값을 문자열로 전달
+                placeholder='team'
+                onChange={(selected) =>
+                  field.onChange((selected as { value: string })?.value)
+                } // 값을 문자열로 전달
                 value={TEAM_LIST.find((option) => option.value === field.value)}
                 isClearable
               />
@@ -113,6 +115,55 @@ const Input = styled.input`
   &:focus {
     border-color: #d43131;
     outline: none;
+  }
+`;
+
+export const StyledSelect = styled(Select).attrs({
+  classNamePrefix: 'custom-select',
+})`
+  .custom-select__control {
+    width: 100%;
+    padding: 2px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fafafa;
+    text-align: left;
+    box-shadow: none;
+    &:hover {
+      border-color: #d43131;
+    }
+  }
+
+  .custom-select__control--is-focused {
+    border-color: #d43131;
+  }
+
+  .custom-select__menu {
+    z-index: 9999;
+  }
+
+  .custom-select__menu-list {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .custom-select__option {
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    text-align: left;
+    padding: 10px;
+
+    &:hover {
+      background-color: #f2f2f2;
+    }
+  }
+
+  .custom-select__option--is-focused {
+    background-color: #ffecec;
   }
 `;
 
