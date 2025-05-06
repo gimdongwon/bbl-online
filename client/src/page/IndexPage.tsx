@@ -26,6 +26,7 @@ const IndexPage: React.FC = () => {
       <BBLIssueContainer />
       <LinkWrap>
         <Link to={'/list'}>BBL 리스트 보러가기</Link>
+        <Link to={'/change-password'}>비밀번호 변경하기</Link>
       </LinkWrap>
     </Container>
   );
@@ -71,6 +72,7 @@ const LinkWrap = styled.div`
   color: #666;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   gap: 10px;
 
   a {

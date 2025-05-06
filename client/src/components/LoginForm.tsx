@@ -60,6 +60,15 @@ const LoginForm: React.FC<LoginFormProps> = ({
         </form>
         <FooterLinks>
           <Link to={'/register'}>회원가입하기</Link>
+          <PasswordInitial
+            onClick={() =>
+              alert(
+                '비밀번호 초기화는 관리자에게 문의해주세요. (People & Culture 팀 유예은 대리님한테 연락주세요)'
+              )
+            }
+          >
+            비밀번호 초기화
+          </PasswordInitial>
         </FooterLinks>
         <FooterText>FE2 winter1 © Encar 1599-5455</FooterText>
       </LoginBox>
@@ -173,6 +182,12 @@ const FooterLinks = styled.div`
     color: #666;
     text-decoration: underline;
   }
+`;
+
+const PasswordInitial = styled.span`
+  cursor: pointer;
+  color: #666;
+  text-decoration: underline;
 `;
 
 const FooterText = styled.div`

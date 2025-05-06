@@ -4,6 +4,7 @@ import { IndexPage } from './page';
 import LoginPage from './page/LoginPage';
 import ListPage from './page/ListPage';
 import RegisterPage from './page/RegisterPage';
+import ChangePasswordPage from './page/ChangePasswordPage';
 import ProtectedRoute from './components/ProtectRoute';
 
 const App: React.FC = () => {
@@ -11,6 +12,7 @@ const App: React.FC = () => {
     <Routes>
       <Route path='/login' element={<LoginPage />} />
       <Route path='/register' element={<RegisterPage />} />
+      <Route path='/change-password' element={<ChangePasswordPage />} />
       <Route element={<ProtectedRoute />}>
         <Route path='/list' element={<ListPage />} />
         <Route path='/' element={<IndexPage />} />

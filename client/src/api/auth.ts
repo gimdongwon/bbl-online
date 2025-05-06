@@ -33,3 +33,11 @@ export const getSearchUser = async (name: string) => {
   });
   return response.data.users;
 };
+
+export const patchChangePassword = async (data: {
+  currentPassword: string;
+  newPassword: string;
+}) => {
+  const response = await privateInstance.patch('/auth/change-password', data);
+  return response.data;
+};

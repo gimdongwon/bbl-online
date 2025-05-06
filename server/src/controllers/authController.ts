@@ -110,3 +110,33 @@ export const logout = (req: Request, res: Response): void => {
   // 클라이언트에서 토큰을 삭제하도록 유도
   res.status(200).json({ message: 'Logged out successfully' });
 };
+
+export const changePassword = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const userId = (req as any).user; // `any`로 임시 해결
+
+    const user = await User.findById(userId);
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      res.status(400).json({ message: '현재 비밀번호가 틀립니다.' });
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: '비밀번호가 성공적으로 변경되었습니다.' });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+};
