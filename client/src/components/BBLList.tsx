@@ -1,10 +1,36 @@
 import styled from 'styled-components';
 import { BBLListType, BBLType } from '../types';
+import { ChangeEvent } from 'react';
 
-const BBLList = ({ bblList }: { bblList: BBLListType }) => {
+interface Props {
+  bblList: BBLListType;
+  startDate: string;
+  endDate: string;
+  handleDate: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const BBLList = ({ bblList, startDate, endDate, handleDate }: Props) => {
   return (
     <Container>
       <Title>BBL List</Title>
+      <WrapInput>
+        <label htmlFor='startDate' />
+        <Input
+          type='date'
+          name='startDate'
+          value={startDate}
+          onChange={handleDate}
+          placeholder='시작 날짜'
+        />
+        <label htmlFor='endDate' />
+        <Input
+          type='date'
+          name='endDate'
+          value={endDate}
+          onChange={handleDate}
+          placeholder='종료 날짜'
+        />
+      </WrapInput>
       <Table>
         <thead>
           <TableRow>
@@ -51,6 +77,14 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center; /* 수평 중앙 정렬 */
   text-align: center;
+`;
+
+const WrapInput = styled.div`
+  display: flex;
+`;
+
+const Input = styled.input`
+  width: 200px;
 `;
 
 const Title = styled.h1`

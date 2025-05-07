@@ -86,7 +86,6 @@ export const getBBLList = async (
   try {
     // 로그인 권한 없을시 return;
     const userId = req.user as string | undefined;
-
     if (!userId) {
       res.status(401).json({ message: 'Unauthorized..' });
       return;
@@ -96,13 +95,20 @@ export const getBBLList = async (
       res.status(404).json({ error: 'User not found' });
       return;
     }
+
     // admin 권한을 가진 사용자 리스트
     const adminUserList: string[] = ['10685', '10933', '11008'];
     const isAdmin: boolean = adminUserList.includes(user.companyNo);
-    const query: Record<string, string> = isAdmin
-      ? {}
-      : { issuerId: user.companyNo };
+    const query: any = isAdmin ? {} : { issuerId: user.companyNo };
 
+    const { startDate, endDate } = req.query;
+
+    if (startDate && endDate) {
+      query.issueDate = {
+        $gte: new Date(startDate as string),
+        $lte: new Date(endDate as string),
+      };
+    }
     const bblList = await BBL.find(query); // 본인이 발행한 BBL 데이터 조회
 
     // issuerId로 사용자 이름을 조회하여 추가 (res에 추가하기 name 추가하기 위한 로직)

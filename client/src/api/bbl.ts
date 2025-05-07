@@ -1,9 +1,22 @@
 import { privateInstance } from './axios';
 import { BBLListType } from '../types';
 
+interface BblListReqType {
+  startDate: string;
+  endDate: string;
+}
+
 // BBL 리스트 가져오기
-export const fetchBBLList = async (): Promise<BBLListType> => {
-  const response = await privateInstance.get('/bbl/list'); // '/api/bbl' 경로는 baseURL에 포함됨
+export const fetchBBLList = async ({
+  startDate,
+  endDate,
+}: BblListReqType): Promise<BBLListType> => {
+  const response = await privateInstance.get('/bbl/list', {
+    params: {
+      startDate,
+      endDate,
+    },
+  }); // '/api/bbl' 경로는 baseURL에 포함됨
   return response.data;
 };
 
