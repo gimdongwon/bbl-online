@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { BBLListType, BBLType } from '../types';
-
+import { downloadBBLExcel } from '../utils/excel';
 interface Props {
   bblList: BBLListType;
   startDate: string;
@@ -40,6 +40,9 @@ const BBLList = ({
           onChange={handleDate}
           placeholder='종료 날짜'
         />
+        <ExcelButton onClick={() => downloadBBLExcel(bblList.bbls)}>
+          엑셀 다운로드
+        </ExcelButton>
       </DateFilterWrapper>
       <Table>
         <thead>
@@ -183,5 +186,20 @@ export const PageButton = styled.button<{ active?: boolean }>`
   &:disabled {
     cursor: not-allowed;
     opacity: 0.4;
+  }
+`;
+
+const ExcelButton = styled.button`
+  background-color: #d43131;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+  border: none;
+  margin-bottom: 20px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #b22a2a;
   }
 `;
