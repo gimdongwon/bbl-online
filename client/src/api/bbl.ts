@@ -4,17 +4,20 @@ import { BBLListType } from '../types';
 interface BblListReqType {
   startDate: string;
   endDate: string;
+  page: number;
 }
 
 // BBL 리스트 가져오기
 export const fetchBBLList = async ({
   startDate,
   endDate,
+  page,
 }: BblListReqType): Promise<BBLListType> => {
   const response = await privateInstance.get('/bbl/list', {
     params: {
       startDate,
       endDate,
+      page,
     },
   }); // '/api/bbl' 경로는 baseURL에 포함됨
   return response.data;

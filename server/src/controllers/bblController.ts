@@ -101,15 +101,22 @@ export const getBBLList = async (
     const isAdmin: boolean = adminUserList.includes(user.companyNo);
     const query: any = isAdmin ? {} : { issuerId: user.companyNo };
 
-    const { startDate, endDate } = req.query;
-
+    const { startDate, endDate, page = '1' } = req.query;
+    const pageNumber = parseInt(page as string, 10);
+    const pageSize = 10;
+    const skip = (pageNumber - 1) * pageSize;
     if (startDate && endDate) {
       query.issueDate = {
         $gte: new Date(startDate as string),
         $lte: new Date(endDate as string),
       };
     }
-    const bblList = await BBL.find(query); // 본인이 발행한 BBL 데이터 조회
+
+    const totalCount = await BBL.countDocuments(query);
+    const bblList = await BBL.find(query)
+      .sort({ issueDate: -1 })
+      .skip(skip)
+      .limit(pageSize); // 본인이 발행한 BBL 데이터 조회
 
     // issuerId로 사용자 이름을 조회하여 추가 (res에 추가하기 name 추가하기 위한 로직)
     const bbls = await Promise.all(
@@ -127,35 +134,10 @@ export const getBBLList = async (
         };
       })
     );
-    res.status(200).json({ bbls });
+    res
+      .status(200)
+      .json({ bbls, totalCount, currentPage: pageNumber, pageSize });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while fetching BBLs' });
   }
 };
-
-// 추후 페이징 기능 추가
-// export const getAllBBLs = async (req: Request, res: Response): Promise<void> => {
-//   try {
-//     // 쿼리 파라미터로 page와 limit을 받아옵니다.
-//     const page = parseInt(req.query.page as string, 10) || 1;
-//     const limit = parseInt(req.query.limit as string, 10) || 10;
-//     const skip = (page - 1) * limit;
-
-//     // 전체 항목 수 계산
-//     const totalItems = await BBL.countDocuments();
-
-//     // 현재 페이지 데이터 가져오기
-//     const bbls = await BBL.find().skip(skip).limit(limit);
-
-//     res.status(200).json({
-//       data: bbls,
-//       pagination: {
-//         totalItems,
-//         totalPages: Math.ceil(totalItems / limit),
-//         currentPage: page,
-//       },
-//     });
-//   } catch (error) {
-//     res.status(500).json({ error: 'An error occurred while fetching BBLs' });
-//   }
-// };

@@ -1,19 +1,29 @@
 import styled from 'styled-components';
 import { BBLListType, BBLType } from '../types';
-import { ChangeEvent } from 'react';
 
 interface Props {
   bblList: BBLListType;
   startDate: string;
   endDate: string;
-  handleDate: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  totalCount: number;
+  onPageChange: (value: number) => void;
 }
 
-const BBLList = ({ bblList, startDate, endDate, handleDate }: Props) => {
+const BBLList = ({
+  bblList,
+  startDate,
+  endDate,
+  handleDate,
+  totalCount,
+  onPageChange,
+}: Props) => {
+  const totalPages = Math.ceil(totalCount / 10);
+
   return (
     <Container>
       <Title>BBL List</Title>
-      <WrapInput>
+      <DateFilterWrapper>
         <label htmlFor='startDate' />
         <Input
           type='date'
@@ -30,7 +40,7 @@ const BBLList = ({ bblList, startDate, endDate, handleDate }: Props) => {
           onChange={handleDate}
           placeholder='종료 날짜'
         />
-      </WrapInput>
+      </DateFilterWrapper>
       <Table>
         <thead>
           <TableRow>
@@ -59,6 +69,13 @@ const BBLList = ({ bblList, startDate, endDate, handleDate }: Props) => {
           ))}
         </tbody>
       </Table>
+      <PaginationWrapper>
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          <PageButton key={page} onClick={() => onPageChange(page)}>
+            {page}
+          </PageButton>
+        ))}
+      </PaginationWrapper>
     </Container>
   );
 };
@@ -79,8 +96,23 @@ const Container = styled.div`
   text-align: center;
 `;
 
-const WrapInput = styled.div`
+const DateFilterWrapper = styled.div`
   display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+
+  input[type='date'] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fafafa;
+    &:focus {
+      border-color: #d43131;
+      outline: none;
+    }
+  }
 `;
 
 const Input = styled.input`
@@ -122,4 +154,34 @@ const TableCell = styled.td`
   font-size: 14px;
   color: #333;
   border-bottom: 1px solid #ccc;
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+`;
+
+export const PageButton = styled.button<{ active?: boolean }>`
+  padding: 8px 12px;
+  border: 1px solid ${({ active }) => (active ? '#d43131' : '#ccc')};
+  background-color: ${({ active }) => (active ? '#d43131' : '#fff')};
+  color: ${({ active }) => (active ? '#fff' : '#333')};
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  min-width: 32px;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: ${({ active }) => (active ? '#d43131' : '#f8f8f8')};
+    border-color: #d43131;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
 `;

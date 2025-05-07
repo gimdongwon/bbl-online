@@ -1,5 +1,8 @@
 export interface BBLListType {
   bbls: BBLType[];
+  totalCount: number;
+  currentPage: number;
+  pageSize: number;
 }
 
 export interface BBLType {

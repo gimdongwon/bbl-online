@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 const BBLListContainer: React.FC = () => {
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
   const fetchUser = useAuthStore((state) => state.fetchUser);
   const { token } = useAuthStore();
   const {
@@ -18,10 +19,15 @@ const BBLListContainer: React.FC = () => {
     error,
     refetch: bblListRefetch,
   } = useQuery<BBLListType | undefined, Error>({
-    queryKey: ['bblList', startDate, endDate],
+    queryKey: ['bblList', startDate, endDate, page],
     queryFn: ({ queryKey }) => {
-      const [, startDate, endDate] = queryKey as [string, string, string];
-      return fetchBBLList({ startDate, endDate });
+      const [, startDate, endDate, page] = queryKey as [
+        string,
+        string,
+        string,
+        number
+      ];
+      return fetchBBLList({ startDate, endDate, page });
     },
   });
 
@@ -33,6 +39,7 @@ const BBLListContainer: React.FC = () => {
     } else if (name === 'endDate') {
       setEndDate(value);
     }
+    setPage(1);
   };
 
   useEffect(() => {
@@ -60,6 +67,8 @@ const BBLListContainer: React.FC = () => {
         startDate={startDate}
         endDate={endDate}
         handleDate={handleDate}
+        totalCount={bblList.totalCount || 0}
+        onPageChange={setPage}
       />
     </>
   );
