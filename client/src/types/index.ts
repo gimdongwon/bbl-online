@@ -16,4 +16,5 @@ export interface BBLType {
   issueDate: string;
   employeeId: string;
   amount: number;
+  category: string; // 카테고리 필드 추가
 }

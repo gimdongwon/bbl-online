@@ -12,6 +12,7 @@ const BBLIssueContainer: React.FC = () => {
   const [purpose, setPurpose] = useState('');
   const [amount, setAmount] = useState<number | ''>('');
   const [userOptions, setUserOptions] = useState([]);
+  const [category, setCategory] = useState('일반'); // 카테고리 필드 추가
 
   const { user, logout } = useAuthStore();
   const queryClient = useQueryClient(); // React Query의 QueryClient 사용
@@ -45,6 +46,7 @@ const BBLIssueContainer: React.FC = () => {
       purpose,
       amount: Number(amount),
       issuerId: user.companyNo,
+      category,
     });
   };
 
@@ -81,6 +83,8 @@ const BBLIssueContainer: React.FC = () => {
       selectedUser={selectedUser}
       purpose={purpose}
       amount={amount}
+      category={category}
+      setCategory={setCategory}
       onSelectUser={setSelectedUser}
       onPurposeChange={setPurpose}
       onAmountChange={setAmount}

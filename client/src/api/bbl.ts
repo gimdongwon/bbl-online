@@ -31,6 +31,7 @@ export const issueBBL = async (data: {
   purpose: string;
   amount: number;
   issuerId: string;
+  category: string; // 카테고리 필드 추가
 }) => {
   const response = await privateInstance.post('/bbl/issue', data);
   return response.data;

@@ -33,7 +33,7 @@ const BBLList = ({
       Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i),
     [startPage, endPage]
   );
-  console.log(startPage, endPage, totalPages, currentPage);
+
   return (
     <Container>
       <Title>BBL List</Title>
@@ -66,6 +66,7 @@ const BBLList = ({
             <TableHeader>발행자 이름</TableHeader>
             <TableHeader>대상자 이름</TableHeader>
             <TableHeader>대상자 팀</TableHeader>
+            <TableHeader>발행 카테고리</TableHeader>
             <TableHeader>목적</TableHeader>
             <TableHeader>BBL 수량</TableHeader>
             <TableHeader>발행날짜</TableHeader>
@@ -79,6 +80,7 @@ const BBLList = ({
               <TableCell>{bbl.issuerName}</TableCell>
               <TableCell>{bbl.recipientName}</TableCell>
               <TableCell>{bbl.recipientTeam}</TableCell>
+              <TableCell>{bbl.category}</TableCell>
               <TableCell>{bbl.purpose}</TableCell>
               <TableCell>{bbl.amount}</TableCell>
               <TableCell>{new Date(bbl.issueDate).toLocaleString()}</TableCell>

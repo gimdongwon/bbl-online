@@ -19,6 +19,8 @@ interface BBLIssueFormProps {
   isLoading: boolean;
   userOptions: UserOption[];
   onInputChange: (inputValue: string) => void;
+  category: string;
+  setCategory: (category: string) => void;
 }
 
 const BBLIssueForm: React.FC<BBLIssueFormProps> = ({
@@ -33,6 +35,8 @@ const BBLIssueForm: React.FC<BBLIssueFormProps> = ({
   isLoading,
   userOptions,
   onInputChange,
+  category,
+  setCategory,
 }) => {
   return (
     <FormContainer>
@@ -67,6 +71,22 @@ const BBLIssueForm: React.FC<BBLIssueFormProps> = ({
           <option value={10}>10</option>
           <option value={30}>30</option>
           <option value={50}>50</option>
+        </SelectBox>
+        <SelectBox
+          required
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value='일반'>일반</option>
+          <option value='특별'>특별</option>
+          <option value='긴급'>긴급</option>
+          <option value='기타'>기타</option>
+          <option value='감사'>감사</option>
+          <option value='축하'>축하</option>
+          <option value='격려'>격려</option>
+          <option value='사기진작'>사기진작</option>
+          <option value='업무지원'>업무지원</option>
+          <option value='프로젝트지원'>프로젝트지원</option>
         </SelectBox>
         <TextArea
           value={purpose}

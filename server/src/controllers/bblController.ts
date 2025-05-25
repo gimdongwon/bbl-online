@@ -11,6 +11,7 @@ export const issueBBL = async (req: Request, res: Response): Promise<void> => {
     issuerId,
     purpose,
     amount,
+    category,
   } = req.body;
 
   try {
@@ -32,6 +33,7 @@ export const issueBBL = async (req: Request, res: Response): Promise<void> => {
       amount,
       bblNo: newBBLNo,
       issueDate: new Date(),
+      category,
     });
 
     const savedBBL = await newBBL.save();
