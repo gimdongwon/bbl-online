@@ -106,9 +106,15 @@ export const getBBLList = async (
     const pageSize = 10;
     const skip = (pageNumber - 1) * pageSize;
     if (startDate && endDate) {
+      const start = new Date(startDate as string);
+      start.setHours(0, 0, 0, 0); // 시작 날짜 00:00:00
+
+      const end = new Date(endDate as string);
+      end.setHours(23, 59, 59, 999); // 종료 날짜 23:59:59.999
+
       query.issueDate = {
-        $gte: new Date(startDate as string),
-        $lte: new Date(endDate as string),
+        $gte: start,
+        $lte: end,
       };
     }
 
