@@ -68,12 +68,12 @@ const BBLIssueForm: React.FC<BBLIssueFormProps> = ({
           <option value={30}>30</option>
           <option value={50}>50</option>
         </SelectBox>
-        <Input
-          type='text'
+        <TextArea
           value={purpose}
           onChange={(e) => onPurposeChange(e.target.value)}
           placeholder='발행 목적'
           required
+          maxLength={200}
         />
         <SubmitButton type='submit' disabled={isLoading}>
           {isLoading ? '발행 중...' : '발행하기'}
@@ -171,6 +171,43 @@ const Input = styled.input`
     outline: none;
   }
 `;
+
+const TextArea = styled.textarea`
+  width: 100%;
+  padding: 12px 16px;
+  margin-top: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fafafa;
+  box-sizing: border-box;
+  resize: vertical;
+  &:focus {
+    border-color: #d43131;
+    outline: none;
+  }
+  max-height: 200px; /* 최대 높이 설정 */
+  overflow-y: auto; /* 내용이 많을 경우 스크롤 가능 */
+  min-height: 100px; /* 최소 높이 설정 */
+  max-height: 300px; /* 최대 높이 설정 */
+  line-height: 1.5; /* 줄 간격 설정 */
+  font-family: 'Arial', sans-serif; /* 폰트 설정 */
+  color: #333; /* 글자 색상 설정 */
+  background-color: #fafafa; /* 배경색 설정 */
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* 내부 그림자 효과 */
+  transition: border-color 0.2s ease; /* 포커스 시 테두리 색상 변화 효과 */
+  &:hover {
+    border-color: #d43131; /* 호버 시 테두리 색상 변화 */
+  }
+  &::placeholder {
+    color: #999; /* 플레이스홀더 색상 설정 */
+    opacity: 1; /* 플레이스홀더 불투명도 설정 */
+    font-style: italic; /* 플레이스홀더 이탤릭체 설정 */
+    font-size: 14px; /* 플레이스홀더 폰트 크기 설정 */
+    line-height: 1.5; /* 플레이스홀더 줄 간격 설정 */
+    font-family: 'Arial', sans-serif; /* 플레이스홀더 폰트 설정 */
+  }
+}`;
 
 const SelectBox = styled.select`
   width: 100%;

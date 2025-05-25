@@ -69,6 +69,7 @@ const BBLListContainer: React.FC = () => {
         handleDate={handleDate}
         totalCount={bblList.totalCount || 0}
         onPageChange={setPage}
+        currentPage={page}
       />
     </>
   );

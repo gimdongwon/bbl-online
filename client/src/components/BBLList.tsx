@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { BBLListType, BBLType } from '../types';
 import { downloadBBLExcel } from '../utils/excel';
+import { useMemo } from 'react';
 interface Props {
   bblList: BBLListType;
   startDate: string;
@@ -8,6 +9,7 @@ interface Props {
   handleDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
   totalCount: number;
   onPageChange: (value: number) => void;
+  currentPage: number;
 }
 
 const BBLList = ({
@@ -17,9 +19,21 @@ const BBLList = ({
   handleDate,
   totalCount,
   onPageChange,
+  currentPage,
 }: Props) => {
   const totalPages = Math.ceil(totalCount / 10);
 
+  const pageGroupSize = 10;
+  const currentGroup = Math.floor((currentPage - 1) / pageGroupSize);
+  const startPage = currentGroup * pageGroupSize + 1;
+  const endPage = Math.min(startPage + pageGroupSize - 1, totalPages);
+
+  const pageNumbers = useMemo(
+    () =>
+      Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i),
+    [startPage, endPage]
+  );
+  console.log(startPage, endPage, totalPages, currentPage);
   return (
     <Container>
       <Title>BBL List</Title>
@@ -58,9 +72,9 @@ const BBLList = ({
           </TableRow>
         </thead>
         <tbody>
-          {bblList.bbls.map((bbl: BBLType, index: number) => (
+          {bblList.bbls.map((bbl: BBLType) => (
             <TableRow key={bbl._id}>
-              <TableCell>{index + 1}</TableCell>
+              <TableCell>{bbl.bblNo}</TableCell>
               <TableCell>{bbl.issuerId}</TableCell>
               <TableCell>{bbl.issuerName}</TableCell>
               <TableCell>{bbl.recipientName}</TableCell>
@@ -72,12 +86,43 @@ const BBLList = ({
           ))}
         </tbody>
       </Table>
+
       <PaginationWrapper>
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <PageButton key={page} onClick={() => onPageChange(page)}>
+        <PageButton
+          onClick={() => onPageChange(1)}
+          disabled={currentPage === 1}
+        >
+          ≪
+        </PageButton>
+        <PageButton
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          &lt;
+        </PageButton>
+
+        {pageNumbers.map((page) => (
+          <PageButton
+            key={page}
+            active={page === currentPage}
+            onClick={() => onPageChange(page)}
+          >
             {page}
           </PageButton>
         ))}
+
+        <PageButton
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={endPage === currentPage}
+        >
+          &gt;
+        </PageButton>
+        <PageButton
+          onClick={() => onPageChange(totalPages)}
+          disabled={currentPage === totalPages}
+        >
+          ≫
+        </PageButton>
       </PaginationWrapper>
     </Container>
   );
@@ -154,9 +199,13 @@ const TableHeader = styled.th`
 
 const TableCell = styled.td`
   padding: 12px 16px;
+  max-width: 200px;
   font-size: 14px;
   color: #333;
   border-bottom: 1px solid #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const PaginationWrapper = styled.div`
