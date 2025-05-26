@@ -11,6 +11,7 @@ export interface BBLType {
   issuerName: string;
   recipientName: string;
   recipientTeam: string;
+  recipientId: string;
   purpose: string;
   bblNo: string;
   issueDate: string;

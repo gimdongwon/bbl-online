@@ -23,6 +23,7 @@ export const issueBBL = async (req: Request, res: Response): Promise<void> => {
     // 새로운 bblNo 계산
     const lastBBLNo = lastBBL ? parseInt(lastBBL.bblNo) : amount * 1000000; // 없으면 초기값
     const newBBLNo = (lastBBLNo + 1).toString();
+    const issueDate = new Date();
 
     const newBBL = new BBL({
       recipientName,
@@ -32,7 +33,7 @@ export const issueBBL = async (req: Request, res: Response): Promise<void> => {
       issuerId,
       amount,
       bblNo: newBBLNo,
-      issueDate: new Date(),
+      issueDate,
       category,
     });
 
@@ -44,21 +45,21 @@ export const issueBBL = async (req: Request, res: Response): Promise<void> => {
       throw new Error('사용자의 이메일이 없어 이메일 보내기에 실패하였습니다.');
     }
 
-    const emailSubject = `BBL Issued: ${newBBLNo}`;
-    const emailText = `Hi ${recipientName},\n\nYou have received a BBL.\n\nDetails:\n- Issuer: ${issuerId}\n- Purpose: ${purpose}\n- Amount: ${amount}\n\nThank you.`;
+    const emailSubject = `${issuer.name} 님으로부터 ${amount} BBL이 도착했어요! 💌`;
+
     const emailHtml = `
-      <h1>BBL Issued</h1>
-      <p><strong>Hi ${recipientName},</strong></p>
-      <p>You have received a BBL.</p>
-      <ul>
-        <li><strong>Issuer:</strong> ${issuerId}</li>
-        <li><strong>Purpose:</strong> ${purpose}</li>
-        <li><strong>Amount:</strong> ${amount}</li>
-      </ul>
-      <p>Thank you.</p>
+      안녕하세요, ${recipientName}님!<br/><br/>
+      수령인 : ${recipientName}<br/>
+      목적 : ${category}<br/>
+      목적 상세 : ${purpose}<br/>
+      발행인 : ${issuer.name}<br/>
+      발행일 : ${issueDate.toLocaleString()}<br/><br/>
+      ${recipientName}님의 멋진 활약에 감사의 마음을 전합니다 🙂👍
+      <br/><br/>
+      ps: BBL은 1일~말일 발행건에 대해 익월 10일 경 자금일에 경비계좌로 입금됩니다.(평균 6~9시pm 사이)
     `;
 
-    await sendEmail(issuer.email, emailSubject, emailText, emailHtml);
+    await sendEmail(issuer.email, emailSubject, emailHtml);
 
     res.status(201).json({
       message: 'BBL issued successfully and email sent',

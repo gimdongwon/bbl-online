@@ -77,16 +77,11 @@ const BBLIssueForm: React.FC<BBLIssueFormProps> = ({
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
-          <option value='일반'>일반</option>
-          <option value='특별'>특별</option>
-          <option value='긴급'>긴급</option>
+          <option value='업무우수'>업무우수</option>
+          <option value='협력 강화'>협력 강화</option>
+          <option value='교육'>교육</option>
+          <option value='사내행사'>사내행사</option>
           <option value='기타'>기타</option>
-          <option value='감사'>감사</option>
-          <option value='축하'>축하</option>
-          <option value='격려'>격려</option>
-          <option value='사기진작'>사기진작</option>
-          <option value='업무지원'>업무지원</option>
-          <option value='프로젝트지원'>프로젝트지원</option>
         </SelectBox>
         <TextArea
           value={purpose}

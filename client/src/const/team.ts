@@ -1,190 +1,55 @@
 export const TEAM_LIST = [
-  {
-    value: '사업기획 1팀',
-    label: '사업기획 1팀',
-  },
-  {
-    value: '사업기획 2팀',
-    label: '사업기획 2팀',
-  },
-  {
-    value: '거래솔루션팀',
-    label: '거래솔루션팀',
-  },
-  {
-    value: '사업지원팀',
-    label: '사업지원팀',
-  },
-  {
-    value: '매입사업팀',
-    label: '매입사업팀',
-  },
-  {
-    value: '성장전략팀',
-    label: '성장전략팀',
-  },
-  {
-    value: '딜러컨설팅팀',
-    label: '딜러컨설팅팀',
-  },
-  {
-    value: '제휴사업팀',
-    label: '제휴사업팀',
-  },
-  {
-    value: '진단사업팀',
-    label: '진단사업팀',
-  },
-  {
-    value: '차량데이터팀',
-    label: '차량데이터팀',
-  },
-  {
-    value: '진단광고사업팀_CAM',
-    label: '진단광고사업팀_CAM',
-  },
-  {
-    value: '브랜드디자인팀',
-    label: '브랜드디자인팀',
-  },
-  {
-    value: '시세데이터사업팀',
-    label: '시세데이터사업팀',
-  },
-  {
-    value: '법인위탁사업팀',
-    label: '법인위탁사업팀',
-  },
-  {
-    value: '디지털광고사업팀',
-    label: '디지털광고사업팀',
-  },
-  {
-    value: '렌트구독사업팀',
-    label: '렌트구독사업팀',
-  },
-  {
-    value: '금융사업팀',
-    label: '금융사업팀',
-  },
-  {
-    value: '플랫폼전략팀',
-    label: '플랫폼전략팀',
-  },
-  {
-    value: '거래프로덕트팀',
-    label: '거래프로덕트팀',
-  },
-  {
-    value: '매입프로덕트팀',
-    label: '매입프로덕트팀',
-  },
-  {
-    value: '인프라프로덕트팀',
-    label: '인프라프로덕트팀',
-  },
-  {
-    value: 'UX팀',
-    label: 'UX팀',
-  },
-  {
-    value: 'CS팀',
-    label: 'CS팀',
-  },
-  {
-    value: 'SRE팀',
-    label: 'SRE팀',
-  },
-  {
-    value: '구매서비스개발팀',
-    label: '구매서비스개발팀',
-  },
-  {
-    value: '플랫폼서비스개발팀',
-    label: '플랫폼서비스개발팀',
-  },
-  {
-    value: '진단제휴개발팀',
-    label: '진단제휴개발팀',
-  },
-  {
-    value: '삼품주문개발팀',
-    label: '삼품주문개발팀',
-  },
-  {
-    value: '성능연동개발팀',
-    label: '성능연동개발팀',
-  },
-  {
-    value: 'FE 1팀',
-    label: 'FE 1팀',
-  },
-  {
-    value: 'FE 2팀',
-    label: 'FE 2팀',
-  },
-  {
-    value: '모바일팀',
-    label: '모바일팀',
-  },
-  {
-    value: '정보보안팀',
-    label: '정보보안팀',
-  },
-  {
-    value: '법무팀',
-    label: '법무팀',
-  },
-  {
-    value: '전략지원팀',
-    label: '전략지원팀',
-  },
-  {
-    value: '전략추진팀',
-    label: '전략추진팀',
-  },
-  {
-    value: '마케팅/홍보팀',
-    label: '마케팅/홍보팀',
-  },
-  {
-    value: '콘텐츠서비스팀',
-    label: '콘텐츠서비스팀',
-  },
-  {
-    value: '경영기획팀',
-    label: '경영기획팀',
-  },
-  {
-    value: '재무회계팀',
-    label: '재무회계팀',
-  },
-  {
-    value: '연결회계팀',
-    label: '연결회계팀',
-  },
-  {
-    value: '자금팀',
-    label: '자금팀',
-  },
-  {
-    value: '과금/정산팀',
-    label: '과금/정산팀',
-  },
-  {
-    value: '금융소비자보호실',
-    label: '금융소비자보호실',
-  },
-  {
-    value: 'People&Culture팀',
-    label: 'People&Culture팀',
-  },
-  {
-    value: 'Data팀',
-    label: 'Data팀',
-  },
-  {
-    value: 'AI팀',
-    label: 'AI팀',
-  },
+  { value: '사업기획1팀', label: '사업기획1팀' },
+  { value: '사업기획2팀', label: '사업기획2팀' },
+  { value: '거래솔루션팀', label: '거래솔루션팀' },
+  { value: '사업지원팀', label: '사업지원팀' },
+  { value: '매입사업팀', label: '매입사업팀' },
+  { value: '성장전략팀', label: '성장전략팀' },
+  { value: '진단광고사업팀', label: '진단광고사업팀' },
+  { value: '브랜드디자인팀', label: '브랜드디자인팀' },
+  { value: '진단데이터그룹', label: '진단데이터그룹' },
+  { value: '진단사업팀', label: '진단사업팀' },
+  { value: '차량데이터팀', label: '차량데이터팀' },
+  { value: '컨설팅제휴그룹', label: '컨설팅제휴그룹' },
+  { value: '제휴사업팀', label: '제휴사업팀' },
+  { value: '딜러컨설팅팀', label: '딜러컨설팅팀' },
+  { value: '법인사업그룹', label: '법인사업그룹' },
+  { value: '시세데이터사업팀', label: '시세데이터사업팀' },
+  { value: '법인위탁사업팀', label: '법인위탁사업팀' },
+  { value: '미디어신사업그룹룹', label: '미디어신사업그룹룹' },
+  { value: '디지털광고사업팀', label: '디지털광고사업팀' },
+  { value: '렌트구독사업팀', label: '렌트구독사업팀' },
+  { value: '금융사업팀', label: '금융사업팀' },
+  { value: '플랫폼전략팀', label: '플랫폼전략팀' },
+  { value: '거래프로덕트팀', label: '거래프로덕트팀' },
+  { value: '매입프로덕트팀', label: '매입프로덕트팀' },
+  { value: '인프라프로덕트팀', label: '인프라프로덕트팀' },
+  { value: 'UX팀', label: 'UX팀' },
+  { value: 'CS팀', label: 'CS팀' },
+  { value: 'SRE팀', label: 'SRE팀' },
+  { value: 'FE 1팀', label: 'FE 1팀' },
+  { value: 'FE 2팀', label: 'FE 2팀' },
+  { value: '구매서비스개발팀', label: '구매서비스개발팀' },
+  { value: '모바일팀', label: '모바일팀' },
+  { value: '상품주문개발팀', label: '상품주문개발팀' },
+  { value: '성능연동개발팀', label: '성능연동개발팀' },
+  { value: '정보보안팀', label: '정보보안팀' },
+  { value: '진단제휴개발팀', label: '진단제휴개발팀' },
+  { value: '판매서비스개발팀', label: '판매서비스개발팀' },
+  { value: '플랫폼서비스개발팀', label: '플랫폼서비스개발팀' },
+  { value: '전략지원그룹룹', label: '전략지원그룹룹' },
+  { value: '법무팀', label: '법무팀' },
+  { value: '전략지원팀', label: '전략지원팀' },
+  { value: '전략추진팀', label: '전략추진팀' },
+  { value: '마케팅/홍보팀', label: '마케팅/홍보팀' },
+  { value: '콘텐츠서비스팀', label: '콘텐츠서비스팀' },
+  { value: '재무기획그룹', label: '재무기획그룹' },
+  { value: '경영기획팀', label: '경영기획팀' },
+  { value: '재무회계팀', label: '재무회계팀' },
+  { value: '연결회계팀', label: '연결회계팀' },
+  { value: '자금팀', label: '자금팀' },
+  { value: '과금/정산팀', label: '과금/정산팀' },
+  { value: 'People&Culture팀', label: 'People&Culture팀' },
+  { value: 'Data팀', label: 'Data팀' },
+  { value: 'AI팀', label: 'AI팀' },
 ];
