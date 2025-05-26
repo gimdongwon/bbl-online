@@ -16,6 +16,8 @@ app.use(
       'http://localhost',
       'http://111.118.40.51:5002',
       'http://192.168.0.18:5173',
+      'http://59.187.202.230:5002',
+      'http://192.168.0.18:5002',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // 허용할 HTTP 메서드
     allowedHeaders: ['Content-Type', 'Authorization'], // 허용할 헤더

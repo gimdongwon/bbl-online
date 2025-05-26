@@ -38,21 +38,21 @@ const BBLList = ({
     <Container>
       <Title>BBL List</Title>
       <DateFilterWrapper>
-        <label htmlFor='startDate' />
+        <label htmlFor="startDate" />
         <Input
-          type='date'
-          name='startDate'
+          type="date"
+          name="startDate"
           value={startDate}
           onChange={handleDate}
-          placeholder='시작 날짜'
+          placeholder="시작 날짜"
         />
-        <label htmlFor='endDate' />
+        <label htmlFor="endDate" />
         <Input
-          type='date'
-          name='endDate'
+          type="date"
+          name="endDate"
           value={endDate}
           onChange={handleDate}
-          placeholder='종료 날짜'
+          placeholder="종료 날짜"
         />
         <ExcelButton onClick={() => downloadBBLExcel(bblList.bbls)}>
           엑셀 다운로드
@@ -115,7 +115,7 @@ const BBLList = ({
 
         <PageButton
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={endPage === currentPage}
+          disabled={totalPages === currentPage}
         >
           &gt;
         </PageButton>
