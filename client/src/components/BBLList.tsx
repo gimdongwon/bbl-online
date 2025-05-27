@@ -38,21 +38,21 @@ const BBLList = ({
     <Container>
       <Title>BBL List</Title>
       <DateFilterWrapper>
-        <label htmlFor='startDate' />
+        <label htmlFor="startDate" />
         <Input
-          type='date'
-          name='startDate'
+          type="date"
+          name="startDate"
           value={startDate}
           onChange={handleDate}
-          placeholder='시작 날짜'
+          placeholder="시작 날짜"
         />
-        <label htmlFor='endDate' />
+        <label htmlFor="endDate" />
         <Input
-          type='date'
-          name='endDate'
+          type="date"
+          name="endDate"
           value={endDate}
           onChange={handleDate}
-          placeholder='종료 날짜'
+          placeholder="종료 날짜"
         />
         <ExcelButton onClick={() => downloadBBLExcel(bblList.bbls)}>
           엑셀 다운로드
@@ -61,15 +61,15 @@ const BBLList = ({
       <Table>
         <thead>
           <TableRow>
-            <TableHeader>대상자 팀</TableHeader>
-            <TableHeader>대상자 사번</TableHeader>
-            <TableHeader>대상자 이름</TableHeader>
-            <TableHeader>No</TableHeader>
+            <TableHeader>수령인 팀명</TableHeader>
+            <TableHeader>수령인 사번</TableHeader>
+            <TableHeader>수령인 이름</TableHeader>
+            <TableHeader>BBLNo</TableHeader>
             <TableHeader>BBL 수량</TableHeader>
-            <TableHeader>목적</TableHeader>
-            <TableHeader>발행자 이름</TableHeader>
+            <TableHeader>목적상세</TableHeader>
+            <TableHeader>발행인이름</TableHeader>
             <TableHeader>발행날짜</TableHeader>
-            <TableHeader>발행 카테고리</TableHeader>
+            <TableHeader>목적</TableHeader>
           </TableRow>
         </thead>
         <tbody>
