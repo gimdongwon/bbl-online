@@ -88,7 +88,7 @@ const BBLIssueForm: React.FC<BBLIssueFormProps> = ({
           onChange={(e) => onPurposeChange(e.target.value)}
           placeholder='발행 목적'
           required
-          maxLength={200}
+          maxLength={100}
         />
         <SubmitButton type='submit' disabled={isLoading}>
           {isLoading ? '발행 중...' : '발행하기'}

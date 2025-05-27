@@ -10,21 +10,25 @@ export const downloadBBLExcel = (bbls: any[]) => {
   const worksheet = XLSX.utils.json_to_sheet(
     bbls.map(
       ({
-        recipientName,
         recipientTeam,
         recipientId,
+        recipientName,
         amount,
+        bblNo,
         purpose,
         issuerName,
         issueDate,
+        category,
       }) => ({
-        수령인: recipientName,
-        팀: recipientTeam,
-        사번: recipientId,
+        수령인팀명: recipientTeam,
+        수령인사번: recipientId,
+        수령인이름: recipientName,
         금액: amount,
-        발행목적: purpose,
-        발행자: issuerName,
-        발행일: new Date(issueDate).toLocaleDateString(),
+        BBLNo: bblNo,
+        목적상세: purpose,
+        발행인이름: issuerName,
+        발행날짜: new Date(issueDate).toLocaleDateString(),
+        목적: category,
       })
     )
   );

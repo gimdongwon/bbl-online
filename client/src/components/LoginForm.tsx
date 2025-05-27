@@ -63,7 +63,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           <PasswordInitial
             onClick={() =>
               alert(
-                '비밀번호 초기화는 관리자에게 문의해주세요. (People & Culture 팀 유예은 대리님한테 연락주세요)'
+                '비밀번호 초기화는 관리자에게 문의해주세요. (People & Culture팀 유예은 대리)'
               )
             }
           >

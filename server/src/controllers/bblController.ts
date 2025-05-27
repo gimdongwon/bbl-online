@@ -41,25 +41,37 @@ export const issueBBL = async (req: Request, res: Response): Promise<void> => {
 
     // 이메일 알림 발송
     const issuer = await User.findOne({ companyNo: issuerId });
+    const recipient = await User.findOne({ companyNo: recipientId });
+
     if (!issuer) {
       throw new Error('사용자의 이메일이 없어 이메일 보내기에 실패하였습니다.');
     }
 
-    const emailSubject = `${issuer.name} 님으로부터 ${amount} BBL이 도착했어요! 💌`;
+    if (!recipient) {
+      throw new Error(
+        '수령인 정보를 찾을 수 없어 이메일 보내기에 실패하였습니다.'
+      );
+    }
+
+    const emailSubject = `${issuer.name} 님으로부터 ${amount} BBL이 도착했어요! 💌🎁✨`;
 
     const emailHtml = `
-      안녕하세요, ${recipientName}님!<br/><br/>
-      수령인 : ${recipientName}<br/>
-      목적 : ${category}<br/>
-      목적 상세 : ${purpose}<br/>
-      발행인 : ${issuer.name}<br/>
-      발행일 : ${issueDate.toLocaleString()}<br/><br/>
-      ${recipientName}님의 멋진 활약에 감사의 마음을 전합니다 🙂👍
-      <br/><br/>
-      ps: BBL은 1일~말일 발행건에 대해 익월 10일 경 자금일에 경비계좌로 입금됩니다.(평균 6~9시pm 사이)
+      안녕하세요, ${recipientName}님!<br/>
+      BBL이 도착했습니다.<br/><br/>
+      ♥︎¸◦°˚°◦.¸⚡️🚗⚡️¸◦°´ *•.¸♥︎<br/>
+      - 받는사람 : ${recipientName}<br/>
+      - 이런게 감사해요 : ${category} - ${purpose}<br/>
+      - 보내는 사람 : ${
+        issuer.name
+      } ${issueDate.toLocaleString()}앞으로도 엔카의 동력이 되어주세요!<br/>
+      감사합니다.<br/>
+      ♥︎¸◦°˚°◦.¸⚡️🚗⚡️¸◦°´ *•.¸♥︎<br/><br/>
+
+      - BBL 입금은 매달 1일~말일 취합하여, 익월 10일 경 자금일에 입금됩니다.
+      - 관련 문의는 P&C팀을 찾아주세요!
     `;
 
-    await sendEmail(issuer.email, emailSubject, emailHtml);
+    await sendEmail(recipient.email, emailSubject, emailHtml);
 
     res.status(201).json({
       message: 'BBL issued successfully and email sent',
