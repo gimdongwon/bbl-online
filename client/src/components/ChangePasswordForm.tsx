@@ -17,6 +17,8 @@ const ChangePasswordForm = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    setFocus,
+    setError,
   } = useForm<FormValues>();
   const newPassword = watch('newPassword');
   const { user, fetchUser } = useAuthStore();
@@ -34,6 +36,19 @@ const ChangePasswordForm = () => {
       navigate('/');
     } catch (error) {
       console.error(error);
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'response' in error &&
+        (error as any).response?.data?.message === '현재 비밀번호가 틀립니다.'
+      ) {
+        setError('currentPassword', {
+          type: 'manual',
+          message: '현재 비밀번호가 틀립니다.',
+        });
+        setFocus('currentPassword');
+        return;
+      }
     }
   };
 
