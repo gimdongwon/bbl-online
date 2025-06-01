@@ -1,38 +1,40 @@
-services:
-  server:
-    build:
-      context: ./server
-    ports:
-      - '5001:5001'
-    environment:
-      - NODE_ENV=production
-      - MONGO_URI=mongodb://mongo:27017/bbl-online
-      - JWT_SECRET=your_secret_key
-      - SMTP_USER=your_smtp_user
-      - SMTP_PASS=your_smtp_password
-    depends_on:
-      - mongo
-    command: ['node', 'dist/index.js'] # dist 폴더에서 실행
+version: '3.8' # Docker Compose 파일 형식 버전. 최신 기능을 활용하기 위해 3.8을 사용합니다.
 
+services:
   client:
     build:
-      context: ./client
-      dockerfile: Dockerfile
+      context: ./client # 클라이언트 애플리케이션의 소스 코드가 있는 경로
+      dockerfile: Dockerfile.dev # 클라이언트용으로 우리가 만든 개발 Dockerfile 지정
     ports:
-      - '3000:3000'
+      - '5002:5002' # 호스트(내 맥북)의 5002번 포트를 컨테이너의 5002번 포트에 연결
+    volumes:
+      - ./client:/app # 호스트의 client 디렉토리를 컨테이너의 /app 디렉토리에 마운트
+      - /app/node_modules # 이 부분은 컨테이너 내부의 node_modules를 사용하도록 예외 처리. (호스트에서 마운트되지 않음)
     environment:
-      - REACT_APP_API_BASE_URL=http://bbl-online-server:5001/api
-    volumes:
-      - ./client:/app
+      - CHOKIDAR_USEPOLLING=true # 특정 환경(WSL2 등)에서 파일 변경 감지 문제를 해결하는 설정
+    networks:
+      - app-network # server 서비스와 동일한 네트워크에 연결하여 서로 통신할 수 있게 함
+    restart: unless-stopped # 컨테이너가 수동으로 중지되지 않는 한 항상 재시작
 
-  mongo:
-    image: mongo:latest
-    container_name: mongo
+  server:
+    build:
+      context: ./server # 서버 애플리케이션의 소스 코드가 있는 경로
+      dockerfile: Dockerfile.dev # 서버용으로 우리가 만든 개발 Dockerfile 지정
     ports:
-      - '27017:27017'
+      - '5001:5001' # 호스트(내 맥북)의 5001번 포트를 컨테이너의 5001번 포트에 연결
     volumes:
-      - mongo-data:/data/db
+      - ./server:/app # 호스트의 server 디렉토리를 컨테이너의 /app 디렉토리에 마운트
+      - /app/node_modules # 이 부분은 컨테이너 내부의 node_modules를 사용하도록 예외 처리.
+    environment:
+      - CHOKIDAR_USEPOLLING=true # nodemon 등 파일 변경 감지 도구 사용 시 문제 해결 설정
+      - MONGO_URI=mongodb://host.docker.internal:27017/bbl-online
+
+    networks:
+      - app-network # client 서비스와 동일한 네트워크에 연결하여 서로 통신할 수 있게 함
+    depends_on:
+      - client # server 서비스가 client 서비스보다 나중에 시작되도록 순서 지정 (선택 사항)
+    restart: unless-stopped # 컨테이너가 수동으로 중지되지 않는 한 항상 재시작
+
 networks:
-  bbl-networks:
-volumes:
-  mongo-data:
+  app-network:
+    driver: bridge # 컨테이너 간 통신을 위한 사용자 정의 네트워크 생성
