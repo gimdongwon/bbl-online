@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { BBLListType, BBLType } from '../types';
 import { downloadBBLExcel } from '../utils/excel';
 import { useMemo } from 'react';
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css';
+
 interface Props {
   bblList: BBLListType;
   startDate: string;
@@ -80,7 +83,32 @@ const BBLList = ({
               <TableCell>{bbl.recipientName}</TableCell>
               <TableCell>{bbl.bblNo}</TableCell>
               <TableCell>{bbl.amount}</TableCell>
-              <TableCell>{bbl.purpose}</TableCell>
+              <TableCell
+                data-tooltip-id={`tooltip-${bbl._id}`}
+                data-tooltip-content={
+                  bbl.purpose.length > 100 ? bbl.purpose : ''
+                }
+              >
+                {bbl.purpose}
+                {bbl.purpose.length > 100 && (
+                  <Tooltip
+                    id={`tooltip-${bbl._id}`}
+                    place='top'
+                    style={{
+                      maxWidth: '300px',
+                      wordBreak: 'break-all',
+                      whiteSpace: 'pre-wrap',
+                      fontSize: '12px',
+                      background: '#fff',
+                      color: '#333',
+                      border: '1px solid #d43131',
+                      borderRadius: '4px',
+                      boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
+                      padding: '6px 8px',
+                    }}
+                  />
+                )}
+              </TableCell>
               <TableCell>{bbl.issuerName}</TableCell>
               <TableCell>{new Date(bbl.issueDate).toLocaleString()}</TableCell>
               <TableCell>{bbl.category}</TableCell>
