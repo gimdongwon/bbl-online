@@ -11,6 +11,7 @@ interface FormValues {
   companyNo: string;
   password: string;
   team: string;
+  grade: string;
 }
 
 const RegisterFormContainer: React.FC = () => {
@@ -21,6 +22,7 @@ const RegisterFormContainer: React.FC = () => {
       companyNo: '',
       password: '',
       team: '',
+      grade: '',
     },
   });
   const navigate = useNavigate();
@@ -34,6 +36,7 @@ const RegisterFormContainer: React.FC = () => {
       companyNo: string;
       password: string;
       team: string;
+      grade: string;
     } // 요청 파라미터 타입
   >({
     mutationFn: registerUser,

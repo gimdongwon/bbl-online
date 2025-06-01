@@ -53,3 +53,9 @@ export const TEAM_LIST = [
   { value: 'Data팀', label: 'Data팀' },
   { value: 'AI팀', label: 'AI팀' },
 ];
+
+export const GRADE = [
+  { value: 'user', label: 'user' },
+  { value: 'leader', label: 'leader' },
+  { value: 'admin', label: 'admin' },
+];

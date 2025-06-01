@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import Select from 'react-select';
-import { TEAM_LIST } from '../const/team';
+import { GRADE, TEAM_LIST } from '../const/team';
 
 interface FormValues {
   name: string;
@@ -11,6 +11,7 @@ interface FormValues {
   password: string;
   companyNo: string;
   team: string;
+  grade: string;
 }
 
 interface RegisterFormProps {
@@ -26,25 +27,25 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, methods }) => {
         <Title>회원가입 페이지</Title>
         <form onSubmit={onSubmit}>
           <Input
-            type="name"
+            type='name'
             {...register('name')}
-            aria-label="name"
-            placeholder="이름"
+            aria-label='name'
+            placeholder='이름'
           />
           <Input
-            type="email"
+            type='email'
             {...register('email')}
-            aria-label="email"
-            placeholder="이메일"
+            aria-label='email'
+            placeholder='이메일'
           />
           <Controller
-            name="team"
+            name='team'
             control={control}
             render={({ field }) => (
               <StyledSelect
                 {...field}
                 options={TEAM_LIST}
-                placeholder="팀이름"
+                placeholder='팀이름'
                 onChange={(selected) =>
                   field.onChange((selected as { value: string })?.value)
                 } // 값을 문자열로 전달
@@ -53,19 +54,35 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit, methods }) => {
               />
             )}
           />
+          <Controller
+            name='grade'
+            control={control}
+            render={({ field }) => (
+              <StyledSelect
+                {...field}
+                options={GRADE}
+                placeholder='회원 등급'
+                onChange={(selected) =>
+                  field.onChange((selected as { value: string })?.value)
+                } // 값을 문자열로 전달
+                value={GRADE.find((option) => option.value === field.value)}
+                isClearable
+              />
+            )}
+          />
           <Input
-            type="companyNo"
+            type='companyNo'
             {...register('companyNo')}
-            aria-label="companyNo"
-            placeholder="사번"
+            aria-label='companyNo'
+            placeholder='사번'
           />
           <Input
-            type="password"
+            type='password'
             {...register('password')}
-            aria-label="password"
-            placeholder="비밀번호"
+            aria-label='password'
+            placeholder='비밀번호'
           />
-          <RegisterButton type="submit">다음</RegisterButton>
+          <RegisterButton type='submit'>다음</RegisterButton>
         </form>
         <LoginLink>
           <Link to={'/login'}>로그인하러가기</Link>

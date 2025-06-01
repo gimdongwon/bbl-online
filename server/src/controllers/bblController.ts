@@ -110,11 +110,21 @@ export const getBBLList = async (
       res.status(404).json({ error: 'User not found' });
       return;
     }
+    // 권한별 접근 처리
+    if (user.grade === 'user') {
+      res.status(403).json({ message: '접근 권한이 없습니다.' });
+      return;
+    }
 
-    // admin 권한을 가진 사용자 리스트
-    const adminUserList: string[] = ['10685', '10933', '11008'];
-    const isAdmin: boolean = adminUserList.includes(user.companyNo);
-    const query: any = isAdmin ? {} : { issuerId: user.companyNo };
+    // // admin 권한을 가진 사용자 리스트
+    // const adminUserList: string[] = ['10685', '10933', '11008'];
+    // const isAdmin: boolean = adminUserList.includes(user.companyNo);
+    // const query: any = isAdmin ? {} : { issuerId: user.companyNo };
+    // admin은 전체 조회(query = {}로 유지)
+    const query: any = {};
+    if (user.grade === 'leader') {
+      query.issuerId = user.companyNo; // leader는 자신이 발급한 것만
+    }
 
     const { startDate, endDate, page = '1' } = req.query;
     const pageNumber = parseInt(page as string, 10);

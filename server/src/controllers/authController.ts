@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 
 // 사용자 등록
 export const register = async (req: Request, res: Response): Promise<void> => {
-  const { name, email, companyNo, password, team } = req.body;
+  const { name, email, companyNo, password, team, grade } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -16,6 +16,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       companyNo,
       password: hashedPassword,
       team,
+      grade,
     });
     const savedUser = await user.save();
     res.status(201).json({
@@ -26,6 +27,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         email: savedUser.email,
         companyNo: savedUser.companyNo,
         team: savedUser.team,
+        grade: savedUser.grade,
       },
     });
   } catch (error) {
@@ -165,10 +167,10 @@ export const uploadUsersFromExcel = async (
 
     // 각 사용자 데이터 처리
     for (const userData of users) {
-      const { name, email, team, companyNo, password } = userData;
+      const { name, email, team, companyNo, password, grade } = userData;
 
       // 필수값 누락시 skip
-      if (!name || !email || !team || !companyNo || !password) {
+      if (!name || !email || !team || !companyNo || !password || !grade) {
         console.warn('⚠️ 누락된 사용자 데이터:', userData);
         continue;
       }
@@ -190,6 +192,7 @@ export const uploadUsersFromExcel = async (
         team,
         companyNo,
         password: hashedPassword,
+        grade,
       });
 
       await newUser.save();

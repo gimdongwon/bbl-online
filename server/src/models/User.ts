@@ -6,6 +6,7 @@ export interface IUser extends Document {
   companyNo: string;
   password: string;
   team: string;
+  grade: 'admin' | 'leader' | 'user';
 }
 
 const UserSchema: Schema = new Schema({
@@ -14,6 +15,11 @@ const UserSchema: Schema = new Schema({
   companyNo: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   team: { type: String, required: true },
+  grade: {
+    type: String,
+    enum: ['admin', 'leader', 'user'],
+    default: 'user',
+  },
 });
 
 export default mongoose.model<IUser>('User', UserSchema);
