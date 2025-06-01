@@ -22,3 +22,5 @@
     - **Docker 기반 개발 환경 구축**
       - Docker Compose를 활용하여 **MongoDB + Backend + Frontend** 컨테이너 오케스트레이션
       - .env 설정을 활용한 환경별(개발/운영) 분리
+
+cicd 구현중..
