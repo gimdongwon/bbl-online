@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import * as XLSX from 'xlsx';
 
 // 사용자 등록
 export const register = async (req: Request, res: Response): Promise<void> => {
@@ -138,5 +139,71 @@ export const changePassword = async (
     res.status(200).json({ message: '비밀번호가 성공적으로 변경되었습니다.' });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
+  }
+};
+
+export const uploadUsersFromExcel = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    // 파일이 없는 경우 처리
+    if (!req.file) {
+      res.status(400).json({ message: '파일이 없습니다.' });
+      return;
+    }
+
+    // XLSX 파싱
+    const workbook = XLSX.readFile(req.file.path);
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const users = XLSX.utils.sheet_to_json<any>(sheet);
+
+    console.log('✅ users parsed from excel:', users);
+
+    let addedCount = 0;
+    let skippedCount = 0;
+
+    // 각 사용자 데이터 처리
+    for (const userData of users) {
+      const { name, email, team, companyNo, password } = userData;
+
+      // 필수값 누락시 skip
+      if (!name || !email || !team || !companyNo || !password) {
+        console.warn('⚠️ 누락된 사용자 데이터:', userData);
+        continue;
+      }
+
+      // 이미 해당 사번으로 가입된 사용자는 건너뛰기
+      const existingUser = await User.findOne({ companyNo });
+      if (existingUser) {
+        console.log(`ℹ️ 이미 가입된 사용자: ${name} (사번: ${companyNo})`);
+        skippedCount++;
+        continue;
+      }
+
+      // 신규 사용자만 해시 후 추가
+      const hashedPassword = await bcrypt.hash(String(password), 10);
+
+      const newUser = new User({
+        name,
+        email,
+        team,
+        companyNo,
+        password: hashedPassword,
+      });
+
+      await newUser.save();
+      console.log(`✅ 신규 사용자 저장 완료: ${name} (사번: ${companyNo})`);
+      addedCount++;
+    }
+
+    res.status(200).json({
+      message: '회원가입 처리 완료',
+      added: addedCount,
+      skipped: skippedCount,
+    });
+  } catch (error) {
+    console.error('❌ 회원가입 실패:', error);
+    res.status(500).json({ message: '회원가입 실패', error });
   }
 };

@@ -4,6 +4,7 @@ import BBLIssueContainer from '../container/BBLIssueContainer';
 import { useAuthStore } from '../store';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Upload from '../components/Upload';
 
 const IndexPage: React.FC = () => {
   const { user, token } = useAuthStore();
@@ -27,6 +28,7 @@ const IndexPage: React.FC = () => {
       <LinkWrap>
         <Link to={'/list'}>BBL 리스트 보러가기</Link>
         <Link to={'/change-password'}>비밀번호 변경하기</Link>
+        <Upload />
       </LinkWrap>
     </Container>
   );

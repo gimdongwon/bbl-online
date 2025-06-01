@@ -1,4 +1,4 @@
-import { publicInstance, privateInstance } from './axios';
+import { publicInstance, privateInstance, formInstance } from './axios';
 
 export const registerUser = async (data: {
   name: string;
@@ -40,4 +40,8 @@ export const patchChangePassword = async (data: {
 }) => {
   const response = await privateInstance.patch('/auth/change-password', data);
   return response.data;
+};
+
+export const uploadUser = async (formData: any) => {
+  await formInstance.post('/auth/upload-users', formData);
 };
