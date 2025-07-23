@@ -3,7 +3,13 @@ import { getUser } from '../api/auth';
 
 interface AuthState {
   token: string | null;
-  user: { _id: string; name: string; companyNo: string; email: string } | null;
+  user: {
+    _id: string;
+    name: string;
+    companyNo: string;
+    email: string;
+    grade: string;
+  } | null;
   setToken: (token: string | null) => void;
   fetchUser: () => Promise<void>;
   logout: () => void;

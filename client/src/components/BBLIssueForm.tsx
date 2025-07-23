@@ -86,7 +86,7 @@ const BBLIssueForm: React.FC<BBLIssueFormProps> = ({
         <TextArea
           value={purpose}
           onChange={(e) => onPurposeChange(e.target.value)}
-          placeholder='발행 목적'
+          placeholder='BBL을 발행하는 구체적인 사유를 적어주세요.'
           required
           maxLength={100}
         />

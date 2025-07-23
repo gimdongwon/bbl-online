@@ -21,7 +21,7 @@ const ChangePasswordForm = () => {
     setError,
   } = useForm<FormValues>();
   const newPassword = watch('newPassword');
-  const { user, fetchUser } = useAuthStore();
+  const { user, fetchUser, logout } = useAuthStore();
   const navigate = useNavigate();
 
   const onSubmit = async (data: FormValues) => {
@@ -33,7 +33,8 @@ const ChangePasswordForm = () => {
       };
       await patchChangePassword(req);
       alert('Change password successful!');
-      navigate('/');
+      logout();
+      navigate('/login');
     } catch (error) {
       console.error(error);
       if (

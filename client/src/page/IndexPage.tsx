@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Upload from '../components/Upload';
 
 const IndexPage: React.FC = () => {
-  const { user, token } = useAuthStore();
+  const { user, token, logout } = useAuthStore();
   const fetchUser = useAuthStore((state) => state.fetchUser);
 
   useEffect(() => {
@@ -16,6 +16,14 @@ const IndexPage: React.FC = () => {
     }
     fetchUser();
   }, [fetchUser, token]);
+
+  useEffect(() => {
+    if (user?.grade === 'user') {
+      alert('일반 user는 접근할 수 없습니다.');
+      logout();
+      window.location.href = '/login';
+    }
+  }, [user, logout]);
 
   return (
     <Container>
@@ -28,7 +36,7 @@ const IndexPage: React.FC = () => {
       <LinkWrap>
         <Link to={'/list'}>BBL 리스트 보러가기</Link>
         <Link to={'/change-password'}>비밀번호 변경하기</Link>
-        <Upload />
+        {user?.grade === 'admin' && <Upload />}
       </LinkWrap>
     </Container>
   );
