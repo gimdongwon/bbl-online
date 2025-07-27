@@ -20,7 +20,9 @@ const BBLIssueContainer: React.FC = () => {
   const issueBBLMutation = useMutation({
     mutationFn: issueBBL,
     onSuccess: () => {
-      alert('BBL 신청이 완료되었습니다.');
+      alert(
+        'BBL 발행이 완료되었습니다.\n발행된 내역은 하단 “BBL 리스트 보러가기”에서 확인하실 수 있습니다.'
+      );
       queryClient.invalidateQueries({ queryKey: ['bblList'] });
     },
     onError: (error: any) => {

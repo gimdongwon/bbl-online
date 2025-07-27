@@ -167,7 +167,13 @@ export const uploadUsersFromExcel = async (
 
     // 각 사용자 데이터 처리
     for (const userData of users) {
-      const { name, email, team, companyNo, password, grade } = userData;
+      // 각 필드의 값에서 공백을 제거
+      const name = String(userData.name ?? '').trim();
+      const email = String(userData.email ?? '').trim();
+      const team = String(userData.team ?? '').trim();
+      const companyNo = String(userData.companyNo ?? '').trim();
+      const password = String(userData.password ?? '').trim();
+      const grade = String(userData.grade ?? '').trim();
 
       // 필수값 누락시 skip
       if (!name || !email || !team || !companyNo || !password || !grade) {
@@ -207,6 +213,7 @@ export const uploadUsersFromExcel = async (
     });
   } catch (error) {
     console.error('❌ 회원가입 실패:', error);
-    res.status(500).json({ message: '회원가입 실패', error });
+    const errorMessage = error instanceof Error ? error.message : '알 수 없는 에러가 발생했습니다.';
+    res.status(500).json({ message: '회원가입 실패: ' + errorMessage, error });
   }
 };

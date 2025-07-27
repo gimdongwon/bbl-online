@@ -62,13 +62,13 @@ export const issueBBL = async (req: Request, res: Response): Promise<void> => {
       - 받는사람 : ${recipientName}<br />
       - 이런게 감사해요 : ${category} - ${purpose}<br />
       - 보내는 사람 : ${issuer.name} <br />
-      ${issueDate.toLocaleString()}<br />
+      - 발행일 : ${issueDate.toLocaleString()}<br />
       앞으로도 엔카의 동력이 되어주세요!<br />
       감사합니다.<br />
       ♥︎¸◦°˚°◦.¸⚡️🚗⚡️¸◦°´ *•.¸♥︎<br /><br />
 
-      - BBL 입금은 매달 1일~말일 취합하여, 익월 10일 경 자금일에 입금됩니다.<br />
-      - 관련 문의는 P&C팀을 찾아주세요!
+      - BBL은 ‘매월 1일부터 말일’까지의 내역을 취합하여, 익월 10일경 자금일에 경비계좌로 입금됩니다.<br />
+      - 관련 문의 : People&Culture팀
     `;
 
     await sendEmail(recipient.email, emailSubject, emailHtml);

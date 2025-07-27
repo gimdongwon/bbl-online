@@ -66,7 +66,7 @@ const ChangePasswordForm = () => {
           <LoginInfo>
             현재 로그인된 사용자:{' '}
             <strong>
-              {user.name} {user.companyNo}
+              {user.name} 사번({user.companyNo})
             </strong>
           </LoginInfo>
         )}
