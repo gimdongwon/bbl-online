@@ -12,7 +12,7 @@ const BBLIssueContainer: React.FC = () => {
   const [purpose, setPurpose] = useState('');
   const [amount, setAmount] = useState<number | ''>('');
   const [userOptions, setUserOptions] = useState([]);
-  const [category, setCategory] = useState('일반'); // 카테고리 필드 추가
+  const [category, setCategory] = useState('업무우수'); // 카테고리 필드 추가
 
   const { user, logout } = useAuthStore();
   const queryClient = useQueryClient(); // React Query의 QueryClient 사용
